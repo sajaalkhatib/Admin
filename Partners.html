@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>إدارة الشركات المتعاونة - آرمن للاستيراد والتصدير</title>
+  
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- CSS المخصص -->
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --secondary: #1ABC9C;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --dark: #1A252F;
+      --success: #27AE60;
+      --warning: #F39C12;
+      --danger: #E74C3C;
+      --border-radius: 0.5rem;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f7fa !important;
+      color: var(--dark);
+    }
+
+    /* الشريط الجانبي */
+    .sidebar {
+      background: linear-gradient(180deg, var(--primary), var(--dark));
+      color: white;
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      right: 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar-brand {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: white;
+    }
+    
+    .sidebar-nav {
+      padding: 1rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-left: 0.75rem;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      margin-right: 280px;
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل العلوي */
+    .topbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .user-dropdown img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* بطاقات الإحصائيات */
+    .stat-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      overflow: hidden;
+      height: 100%;
+      background-color: white;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-card .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background-color: rgba(26, 188, 156, 0.1);
+      color: var(--secondary);
+    }
+    
+    .stat-card .card-icon.primary {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+    }
+    
+    .stat-card .card-icon.warning {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .stat-card .card-icon.danger {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    /* الجداول */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background-color: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .data-table thead th {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+      color: var(--primary);
+    }
+    
+    .data-table tbody td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .data-table tbody tr:hover {
+      background-color: rgba(52, 152, 219, 0.05);
+    }
+    
+    /* صورة الشعار */
+    .company-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 5px;
+      border: 1px solid #eee;
+      background-color: white;
+      padding: 5px;
+      transition: transform 0.3s;
+    }
+    
+    .company-logo:hover {
+      transform: scale(1.1);
+    }
+    
+    /* أزرار الإجراءات */
+    .action-btn {
+      width: 35px;
+      height: 35px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 3px;
+      transition: all 0.3s;
+    }
+    
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    /* شريط النسبة للشركاء */
+    .partner-percent {
+      font-weight: 600;
+      color: var(--primary);
+      background-color: rgba(52, 152, 219, 0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      display: inline-block;
+    }
+    
+    /* نافذة التعديل والإضافة */
+    .modal-content {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .modal-header {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .modal-footer {
+      border-top: 1px solid #eee;
+    }
+    
+    /* زر الإضافة الرئيسي */
+    .btn-add {
+      background-color: var(--secondary);
+      border-color: var(--secondary);
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .btn-add:hover {
+      background-color: #16a085;
+      border-color: #16a085;
+      transform: translateY(-2px);
+    }
+    
+    /* التكيف مع الشاشات الصغيرة */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-right: 0;
+      }
+      
+      .sidebar-toggler {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- الشريط الجانبي -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo">آرمن للاستيراد والتصدير</span>
+      <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggler">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="ControlPanel.html">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="UserManagement.html">
+            <i class="fas fa-users"></i>
+            <span>إدارة المستخدمين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CustomerManagement.html">
+            <i class="fas fa-user-tie"></i>
+            <span>إدارة العملاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Tracking.html">
+            <i class="fas fa-chart-line"></i>
+            <span>تتبع الأداء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CurrencyRates.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>أسعار العملات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ShippingOrders.html">
+            <i class="fas fa-shipping-fast"></i>
+            <span>طلبات الشحن</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ExternalOrders.html">
+            <i class="fas fa-edit"></i>
+            <span>الطلبات الخارجية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Blog.html">
+            <i class="fas fa-newspaper"></i>
+            <span>المدونة</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="Partners.html">
+            <i class="fas fa-handshake"></i>
+            <span>الشركاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="OrderDistribution.html">
+            <i class="fas fa-tasks"></i>
+            <span>توزيع الطلبات</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content" id="mainContent">
+    <!-- شريط التنقل العلوي -->
+    <div >
+      <div class="d-flex justify-content-between align-items-center">
+      
+        
+        
+      </div>
+    </div>
+
+    <div class="container-fluid py-4">
+      <!-- بطاقات الإحصائيات -->
+      <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">إجمالي الشركاء</h6>
+                  <h3 class="mb-0">24 شريك</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 3 شركاء جدد
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-handshake"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">شركاء محليون</h6>
+                  <h3 class="mb-0">12 شريك</h3>
+                  <p class="mb-0 text-primary small">
+                    <i class="fas fa-building me-1"></i> 50%
+                  </p>
+                </div>
+                <div class="card-icon primary">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">شركاء دوليون</h6>
+                  <h3 class="mb-0">12 شريك</h3>
+                  <p class="mb-0 text-info small">
+                    <i class="fas fa-globe me-1"></i> 50%
+                  </p>
+                </div>
+                <div class="card-icon warning">
+                  <i class="fas fa-globe-asia"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">نشطون هذا الشهر</h6>
+                  <h3 class="mb-0">18 شريك</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-check-circle me-1"></i> 75%
+                  </p>
+                </div>
+                <div class="card-icon danger">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- عنوان الصفحة وأزرار التحكم -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">إدارة الشركات المتعاونة</h2>
+            <button class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+              <i class="fas fa-plus me-2"></i>إضافة شركة جديدة
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- جدول الشركات المتعاونة -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>اسم الشركة</th>
+                      <th>الشعار</th>
+                      <th>الوصف</th>
+                      <th>البلد</th>
+                      <th>نسبة الشراكة</th>
+                      <th>الإجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="fw-bold">شركة النقل السريع</td>
+                      <td>
+                        <img src="https://logo.clearbit.com/fedex.com" alt="شعار شركة النقل السريع" class="company-logo">
+                      </td>
+                      <td>شركة متخصصة في النقل البري والشحن الداخلي بأسعار تنافسية</td>
+                      <td>فلسطين</td>
+                      <td>
+                        <span class="partner-percent">30%</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary action-btn" title="تعديل" data-bs-toggle="modal" data-bs-target="#editCompanyModal">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger action-btn" title="حذف" onclick="confirmDelete()">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">شركة الشحن البحري الصينية</td>
+                      <td>
+                        <img src="https://logo.clearbit.com/coscoshipping.com" alt="شعار شركة الشحن البحري الصينية" class="company-logo">
+                      </td>
+                      <td>أكبر شركات الشحن البحري في الصين مع أسطول يضم أكثر من 100 سفينة</td>
+                      <td>الصين</td>
+                      <td>
+                        <span class="partner-percent">25%</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary action-btn" title="تعديل" data-bs-toggle="modal" data-bs-target="#editCompanyModal">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger action-btn" title="حذف" onclick="confirmDelete()">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">أرامكس</td>
+                      <td>
+                        <img src="https://logo.clearbit.com/aramex.com" alt="شعار أرامكس" class="company-logo">
+                      </td>
+                      <td>شركة شحن دولية رائدة في منطقة الشرق الأوسط وشمال أفريقيا</td>
+                      <td>الإمارات</td>
+                      <td>
+                        <span class="partner-percent">20%</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary action-btn" title="تعديل" data-bs-toggle="modal" data-bs-target="#editCompanyModal">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger action-btn" title="حذف" onclick="confirmDelete()">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">DHL العالمية</td>
+                      <td>
+                        <img src="https://logo.clearbit.com/dhl.com" alt="شعار DHL" class="company-logo">
+                      </td>
+                      <td>واحدة من أكبر شركات الشحن السريع في العالم مع تغطية لأكثر من 220 دولة</td>
+                      <td>ألمانيا</td>
+                      <td>
+                        <span class="partner-percent">15%</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary action-btn" title="تعديل" data-bs-toggle="modal" data-bs-target="#editCompanyModal">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger action-btn" title="حذف" onclick="confirmDelete()">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">شركة الجمارك والخدمات اللوجستية</td>
+                      <td>
+                        <img src="https://logo.clearbit.com/ups.com" alt="شعار شركة الجمارك والخدمات اللوجستية" class="company-logo">
+                      </td>
+                      <td>تقدم خدمات التخليص الجمركي والخدمات اللوجستية باحترافية عالية</td>
+                      <td>فلسطين</td>
+                      <td>
+                        <span class="partner-percent">10%</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary action-btn" title="تعديل" data-bs-toggle="modal" data-bs-target="#editCompanyModal">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger action-btn" title="حذف" onclick="confirmDelete()">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- الترقيم الصفحي -->
+              <nav class="mt-4 px-4">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
+                  </li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">التالي</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة إضافة شركة جديدة -->
+  <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCompanyModalLabel">إضافة شركة جديدة</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addCompanyForm">
+            <div class="mb-3">
+              <label for="companyName" class="form-label">اسم الشركة <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="companyName" required>
+            </div>
+           <div class="mb-3">
+  <label for="companyLogo" class="form-label">تحميل الشعار من الجهاز</label>
+  <input type="file" class="form-control" id="companyLogo" accept="image/*" required>
+  <div class="mt-2">
+    <img id="logoPreview" src="" alt="معاينة الشعار" class="img-thumbnail" style="max-height: 150px; display: none;">
+  </div>
+</div>
+
+            <div class="mb-3">
+              <label for="companyDescription" class="form-label">الوصف</label>
+              <textarea class="form-control" id="companyDescription" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="companyCountry" class="form-label">البلد</label>
+              <input type="text" class="form-control" id="companyCountry">
+            </div>
+            <div class="mb-3">
+              <label for="companyPercent" class="form-label">نسبة الشراكة (%) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="companyPercent" min="1" max="100" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="button" class="btn btn-primary" onclick="addCompany()">حفظ الشركة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة تعديل شركة -->
+  <div class="modal fade" id="editCompanyModal" tabindex="-1" aria-labelledby="editCompanyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCompanyModalLabel">تعديل بيانات الشركة</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editCompanyForm">
+            <div class="mb-3">
+              <label for="editCompanyName" class="form-label">اسم الشركة <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="editCompanyName" value="شركة النقل السريع" required>
+            </div>
+            <div class="mb-3">
+              <label for="editCompanyLogo" class="form-label">رابط الشعار (URL)</label>
+              <input type="url" class="form-control" id="editCompanyLogo" value="https://logo.clearbit.com/fedex.com">
+            </div>
+            <div class="mb-3">
+              <label for="editCompanyDescription" class="form-label">الوصف</label>
+              <textarea class="form-control" id="editCompanyDescription" rows="3">شركة متخصصة في النقل البري والشحن الداخلي بأسعار تنافسية</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="editCompanyCountry" class="form-label">البلد</label>
+              <input type="text" class="form-control" id="editCompanyCountry" value="فلسطين">
+            </div>
+            <div class="mb-3">
+              <label for="editCompanyPercent" class="form-label">نسبة الشراكة (%) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="editCompanyPercent" min="1" max="100" value="30" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="button" class="btn btn-primary" onclick="saveCompany()">حفظ التعديلات</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // تبديل الشريط الجانبي
+    document.querySelectorAll('.sidebar-toggler').forEach(toggler => {
+      toggler.addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('show');
+      });
+    });
+
+    // تأكيد الحذف
+    function confirmDelete() {
+      if (confirm('هل أنت متأكد من رغبتك في حذف هذه الشركة؟')) {
+        alert('تم حذف الشركة بنجاح');
+        // هنا يمكنك إضافة كود الحذف الفعلي
+      }
+    }
+
+    // إضافة شركة جديدة
+    function addCompany() {
+      const name = document.getElementById('companyName').value;
+      const percent = document.getElementById('companyPercent').value;
+      
+      if (!name || !percent) {
+        alert('يرجى إدخال جميع الحقول المطلوبة');
+        return;
+      }
+      
+      alert(`تم إضافة شركة ${name} بنسبة شراكة ${percent}% بنجاح`);
+      // هنا يمكنك إضافة كود الإضافة الفعلي
+      document.getElementById('addCompanyForm').reset();
+      bootstrap.Modal.getInstance(document.getElementById('addCompanyModal')).hide();
+    }
+
+    // حفظ التعديلات
+    function saveCompany() {
+      const name = document.getElementById('editCompanyName').value;
+      const percent = document.getElementById('editCompanyPercent').value;
+      
+      if (!name || !percent) {
+        alert('يرجى إدخال جميع الحقول المطلوبة');
+        return;
+      }
+      
+      alert(`تم تحديث بيانات شركة ${name} بنسبة شراكة ${percent}% بنجاح`);
+      // هنا يمكنك إضافة كود التعديل الفعلي
+      bootstrap.Modal.getInstance(document.getElementById('editCompanyModal')).hide();
+    }
+  </script>
+  <script>
+  const logoInput = document.getElementById('companyLogo');
+  const logoPreview = document.getElementById('logoPreview');
+
+  logoInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        logoPreview.src = e.target.result;
+        logoPreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      logoPreview.src = '';
+      logoPreview.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>لوحة تحكم شركة آرمن للاستيراد والتصدير</title>
+  
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- CSS المخصص -->
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --secondary: #1ABC9C;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --dark: #1A252F;
+      --success: #27AE60;
+      --warning: #F39C12;
+      --danger: #E74C3C;
+      --border-radius: 0.5rem;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f7fa !important;
+      color: var(--dark);
+    }
+
+    /* الشريط الجانبي */
+    .sidebar {
+      background: linear-gradient(180deg, var(--primary), var(--dark));
+      color: white;
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      right: 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar-brand {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: white;
+    }
+    
+    .sidebar-nav {
+      padding: 1rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-left: 0.75rem;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      margin-right: 280px;
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل العلوي */
+    .topbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .user-dropdown img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* بطاقات الإحصائيات */
+    .stat-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* الجداول */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .data-table thead th {
+      background-color: var(--light);
+      padding: 1rem;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .data-table tbody td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* الحالة */
+    .status-badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-badge.success {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: var(--success);
+    }
+    
+    .status-badge.warning {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .status-badge.danger {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    .status-badge.info {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+    }
+    
+    /* التكيف مع الشاشات الصغيرة */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-right: 0;
+      }
+      
+      .sidebar-toggler {
+        display: block !important;
+      }
+    }
+    
+    /* تصاميم إضافية لإدارة العملاء */
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-weight: bold;
+    }
+    
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 3px;
+    }
+    
+    .add-client-btn {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
+    
+    .add-client-btn:hover {
+      background-color: #16a085;
+    }
+      .table th, .table td {
+            text-align: right;
+        }
+        .status-pending {
+            color: #ffc107;
+        }
+        .status-completed {
+            color: #28a745;
+        }
+        .status-rejected {
+            color: #dc3545;
+        }
+    /* مودال إضافة عميل */
+    .modal-header {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .modal-footer {
+      border-top: none;
+    }
+    
+    /* الترقيم الصفحي */
+    .pagination .page-item.active .page-link {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .pagination .page-link {
+      color: var(--primary);
+    }
+    
+    /* حالة العميل */
+    .client-status.active {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: var(--success);
+    }
+    
+    .client-status.inactive {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    /* زر عرض الطلبات */
+    .view-orders-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 5px 15px;
+      border-radius: var(--border-radius);
+      font-size: 0.8rem;
+    }
+    
+    .view-orders-btn:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- الشريط الجانبي -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo">آرمن للاستيراد والتصدير</span>
+      <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggler">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="ControlPanel.html">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="UserManagement.html">
+            <i class="fas fa-users"></i>
+            <span>إدارة المستخدمين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="CustomerManagement.html">
+            <i class="fas fa-user-tie"></i>
+            <span>إدارة العملاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Tracking.html">
+            <i class="fas fa-chart-line"></i>
+            <span>تتبع الأداء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CurrencyRates.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>أسعار العملات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ShippingOrders.html">
+            <i class="fas fa-shipping-fast"></i>
+            <span>طلبات الشحن</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ExternalOrders.html">
+            <i class="fas fa-edit"></i>
+            <span>الطلبات الخارجية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Blog.html">
+            <i class="fas fa-newspaper"></i>
+            <span>المدونة</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Partners.html">
+            <i class="fas fa-handshake"></i>
+            <span>الشركاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="OrderDistribution.html">
+            <i class="fas fa-tasks"></i>
+            <span>توزيع الطلبات</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content" id="mainContent">
+    <div class="container-fluid py-4">
+      <!-- عنوان الصفحة -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0"></h4>
+     
+      </div>
+
+      <!-- بطاقات الإحصائيات -->
+      <div class="row mb-4">
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">إجمالي العملاء</h6>
+                  <h3 class="mb-0">48</h3>
+                </div>
+                <div class="bg-primary bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-users text-primary fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">العملاء النشطين</h6>
+                  <h3 class="mb-0">36</h3>
+                </div>
+                <div class="bg-success bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-user-check text-success fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">إجمالي الطلبات</h6>
+                  <h3 class="mb-0">124</h3>
+                </div>
+                <div class="bg-info bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-shopping-cart text-info fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">متوسط الطلبات/عميل</h6>
+                  <h3 class="mb-0">2.6</h3>
+                </div>
+                <div class="bg-warning bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-chart-pie text-warning fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+ <div class="container py-5">
+        <h1 class="text-center mb-5">نظام إدارة العملاء</h1>
+        <div>
+            <button class="btn add-client-btn" data-bs-toggle="modal" data-bs-target="#addClientModal">
+          <i class="fas fa-plus me-2"></i>إضافة عميل
+        </button>
+        </div>
+        <br>
+        <!-- زر إضافة عميل جديد -->
+        
+        <!-- جدول عرض العملاء -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>الاسم الكامل</th>
+                        <th>رقم الهوية</th>
+                        <th>الهاتف</th>
+                        <th>البريد الإلكتروني</th>
+                        <th>عدد الطلبات</th>
+                        <th>الحالة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="clientsTable">
+                    <!-- سيتم ملؤه بالبيانات عبر JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- الترقيم -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- سيتم ملؤه بالبيانات عبر JavaScript -->
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Modal إضافة/تعديل عميل -->
+    <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="clientModalLabel">إضافة عميل جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="clientId">
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">الاسم الكامل</label>
+                        <input type="text" class="form-control" id="fullName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nationalId" class="form-label">رقم الهوية</label>
+                        <input type="text" class="form-control" id="nationalId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">الهاتف</label>
+                        <input type="tel" class="form-control" id="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">الحالة</label>
+                        <select class="form-select" id="status">
+                            <option value="active">نشط</option>
+                            <option value="inactive">غير نشط</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" id="saveClientBtn">حفظ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal عرض الطلبات -->
+    <div class="modal fade" id="ordersModal" tabindex="-1" aria-labelledby="ordersModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ordersModalLabel">طلبات العميل</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4 id="clientNameTitle"></h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>نوع الطلب</th>
+                                    <th>تاريخ التقديم</th>
+                                    <th>الحالة</th>
+                                    <th>المرفقات</th>
+                                    <th>التفاصيل</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <!-- سيتم ملؤه بالبيانات عبر JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // بيانات العملاء والطلبات
+let clients = [
+    {
+        id: 1,
+        name: "أحمد محمد",
+        nationalId: "1234567890",
+        phone: "0501234567",
+        email: "ahmed@example.com",
+        ordersCount: 2,
+        status: "active",
+        orders: [
+            {
+                orderId: 101,
+                type: "استيراد بضائع",
+                date: "2023-05-15",
+                status: "completed",
+                attachments: "invoice-import.pdf",
+                details: "طلب استيراد أدوات كهربائية من الصين"
+            },
+            {
+                orderId: 102,
+                type: "تخليص جمركي",
+                date: "2023-06-20",
+                status: "pending",
+                attachments: "customs-documents.zip",
+                details: "تخليص جمركي لشحنة ملابس واردة من تركيا"
+            }
+        ]
+    },
+    {
+        id: 2,
+        name: "سارة عبدالله",
+        nationalId: "0987654321",
+        phone: "0559876543",
+        email: "sara@example.com",
+        ordersCount: 1,
+        status: "active",
+        orders: [
+            {
+                orderId: 201,
+                type: "تصدير بضائع",
+                date: "2023-07-10",
+                status: "completed",
+                attachments: "export-license.pdf",
+                details: "تصدير منتجات غذائية إلى الإمارات"
+            }
+        ]
+    }
+];
+
+        // العناصر والمتغيرات
+        const clientsTable = document.getElementById('clientsTable');
+        const pagination = document.getElementById('pagination');
+        const clientModal = new bootstrap.Modal(document.getElementById('clientModal'));
+        const ordersModal = new bootstrap.Modal(document.getElementById('ordersModal'));
+        const saveClientBtn = document.getElementById('saveClientBtn');
+        const clientNameTitle = document.getElementById('clientNameTitle');
+        const ordersTable = document.getElementById('ordersTable');
+        
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        let totalPages = Math.ceil(clients.length / itemsPerPage);
+
+        // عرض العملاء
+        function renderClients() {
+            clientsTable.innerHTML = '';
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, clients.length);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const client = clients[i];
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${client.id}</td>
+                    <td>${client.name}</td>
+                    <td>${client.nationalId}</td>
+                    <td>${client.phone}</td>
+                    <td>${client.email}</td>
+                    <td>${client.ordersCount}</td>
+                    <td class="${client.status === 'active' ? 'text-success' : 'text-danger'}">
+                        ${client.status === 'active' ? 'نشط' : 'غير نشط'}
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning edit-client" data-id="${client.id}">تعديل</button>
+                        <button class="btn btn-sm btn-danger delete-client" data-id="${client.id}">حذف</button>
+                        <button class="btn btn-sm btn-info view-orders" data-id="${client.id}">عرض الطلبات</button>
+                    </td>
+                `;
+                
+                clientsTable.appendChild(row);
+            }
+            
+            // إضافة معالجات الأحداث للأزرار
+            document.querySelectorAll('.edit-client').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const clientId = parseInt(this.getAttribute('data-id'));
+                    editClient(clientId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-client').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const clientId = parseInt(this.getAttribute('data-id'));
+                    deleteClient(clientId);
+                });
+            });
+            
+            document.querySelectorAll('.view-orders').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const clientId = parseInt(this.getAttribute('data-id'));
+                    viewClientOrders(clientId);
+                });
+            });
+        }
+
+        // عرض طلبات العميل
+        function viewClientOrders(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            if (!client) return;
+            
+            clientNameTitle.textContent = `طلبات العميل: ${client.name}`;
+            ordersTable.innerHTML = '';
+            
+            // ترتيب الطلبات من الأحدث إلى الأقدم
+            const sortedOrders = [...client.orders].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedOrders.forEach(order => {
+                const row = document.createElement('tr');
+                
+                // تحديد فئة الحالة
+                let statusClass = '';
+                let statusText = '';
+                switch(order.status) {
+                    case 'pending':
+                        statusClass = 'status-pending';
+                        statusText = 'قيد التنفيذ';
+                        break;
+                    case 'completed':
+                        statusClass = 'status-completed';
+                        statusText = 'مكتمل';
+                        break;
+                    case 'rejected':
+                        statusClass = 'status-rejected';
+                        statusText = 'مرفوض';
+                        break;
+                }
+                
+                // زر المرفقات إذا وجدت
+                const attachmentsBtn = order.attachments ? 
+                    `<a href="${order.attachments}" class="btn btn-sm btn-success" download>تحميل</a>` : 
+                    'لا يوجد';
+                
+                row.innerHTML = `
+                    <td>${order.orderId}</td>
+                    <td>${order.type}</td>
+                    <td>${order.date}</td>
+                    <td class="${statusClass}">${statusText}</td>
+                    <td>${attachmentsBtn}</td>
+                    <td><button class="btn btn-sm btn-primary view-details">عرض التفاصيل</button></td>
+                `;
+                
+                ordersTable.appendChild(row);
+            });
+            
+            // إضافة معالجات الأحداث لأزرار عرض التفاصيل
+            document.querySelectorAll('.view-details').forEach((btn, index) => {
+                btn.addEventListener('click', function() {
+                    const orderDetails = sortedOrders[index].details;
+                    alert(`تفاصيل الطلب:\n\n${orderDetails}`);
+                });
+            });
+            
+            ordersModal.show();
+        }
+
+        // الترقيم
+        function renderPagination() {
+            pagination.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // زر السابق
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#">السابق</a>`;
+            prevLi.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderClients();
+                    renderPagination();
+                }
+            });
+            pagination.appendChild(prevLi);
+            
+            // أرقام الصفحات
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${currentPage === i ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderClients();
+                    renderPagination();
+                });
+                pagination.appendChild(li);
+            }
+            
+            // زر التالي
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#">التالي</a>`;
+            nextLi.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderClients();
+                    renderPagination();
+                }
+            });
+            pagination.appendChild(nextLi);
+        }
+
+        // تعديل عميل
+        function editClient(id) {
+            const client = clients.find(c => c.id === id);
+            if (!client) return;
+            
+            document.getElementById('clientId').value = client.id;
+            document.getElementById('fullName').value = client.name;
+            document.getElementById('nationalId').value = client.nationalId;
+            document.getElementById('phone').value = client.phone;
+            document.getElementById('email').value = client.email;
+            document.getElementById('status').value = client.status;
+            
+            document.getElementById('clientModalLabel').textContent = 'تعديل عميل';
+            clientModal.show();
+        }
+
+        // حذف عميل
+        function deleteClient(id) {
+            if (confirm('هل أنت متأكد من حذف هذا العميل؟')) {
+                clients = clients.filter(c => c.id !== id);
+                totalPages = Math.ceil(clients.length / itemsPerPage);
+                if (currentPage > totalPages) currentPage = totalPages;
+                renderClients();
+                renderPagination();
+            }
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            renderClients();
+            renderPagination();
+            
+            // إضافة عميل جديد
+            document.querySelector('[data-bs-target="#clientModal"]').addEventListener('click', function() {
+                document.getElementById('clientModalLabel').textContent = 'إضافة عميل جديد';
+                document.getElementById('clientId').value = '';
+                document.getElementById('fullName').value = '';
+                document.getElementById('nationalId').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('status').value = 'active';
+            });
+        });
+
+        // حفظ العميل (إضافة أو تعديل)
+        saveClientBtn.addEventListener('click', function() {
+            const id = document.getElementById('clientId').value;
+            const name = document.getElementById('fullName').value.trim();
+            const nationalId = document.getElementById('nationalId').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const status = document.getElementById('status').value;
+
+            if (!name || !nationalId || !phone || !email) {
+                alert("يرجى ملء جميع الحقول");
+                return;
+            }
+
+            if (id) {
+                // تعديل عميل موجود
+                const index = clients.findIndex(c => c.id == id);
+                if (index !== -1) {
+                    clients[index].name = name;
+                    clients[index].nationalId = nationalId;
+                    clients[index].phone = phone;
+                    clients[index].email = email;
+                    clients[index].status = status;
+                }
+            } else {
+                // إضافة عميل جديد
+                const newId = clients.length > 0 ? Math.max(...clients.map(c => c.id)) + 1 : 1;
+                clients.push({
+                    id: newId,
+                    name,
+                    nationalId,
+                    phone,
+                    email,
+                    ordersCount: 0,
+                    status,
+                    orders: []
+                });
+                totalPages = Math.ceil(clients.length / itemsPerPage);
+            }
+
+            clientModal.hide();
+            renderClients();
+            renderPagination();
+        });
+    </script>
+</body>
+
+</html>

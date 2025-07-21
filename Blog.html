@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>إدارة المدونة - شركة آرمن للاستيراد والتصدير</title>
+  
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- CSS المخصص -->
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --secondary: #1ABC9C;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --dark: #1A252F;
+      --success: #27AE60;
+      --warning: #F39C12;
+      --danger: #E74C3C;
+      --border-radius: 0.5rem;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f7fa !important;
+      color: var(--dark);
+    }
+
+    /* الشريط الجانبي */
+    .sidebar {
+      background: linear-gradient(180deg, var(--primary), var(--dark));
+      color: white;
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      right: 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar-brand {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: white;
+    }
+    
+    .sidebar-nav {
+      padding: 1rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-left: 0.75rem;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      margin-right: 280px;
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل العلوي */
+    .topbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    /* بطاقات الإحصائيات */
+    .stat-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-card .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background-color: rgba(26, 188, 156, 0.1);
+      color: var(--secondary);
+    }
+    
+    /* بطاقات الأخبار */
+    .news-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      height: 100%;
+    }
+    
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .news-card .card-img-top {
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+    
+    .news-card .card-body {
+      padding: 1.5rem;
+    }
+    
+    .news-card .news-date {
+      color: #6c757d;
+      font-size: 0.875rem;
+    }
+    
+    /* السلايدر */
+    .news-slider {
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .news-slider .carousel-item {
+      height: 400px;
+    }
+    
+    .news-slider .carousel-item img {
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .news-slider .carousel-caption {
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 1.5rem;
+      text-align: right;
+    }
+    
+    .news-slider .carousel-caption h5 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    /* محرر النص */
+    .editor-toolbar {
+      background-color: #f8f9fa;
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      padding: 0.5rem;
+      border: 1px solid #ced4da;
+      border-bottom: none;
+    }
+    
+    .editor-content {
+      min-height: 200px;
+      border: 1px solid #ced4da;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      padding: 1rem;
+    }
+    
+    /* التكيف مع الشاشات الصغيرة */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-right: 0;
+      }
+      
+      .sidebar-toggler {
+        display: block !important;
+      }
+      
+      .news-slider .carousel-item {
+        height: 300px;
+      }
+    }
+    
+    /* تحسينات للواجهة */
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .btn-primary:hover {
+      background-color: #1a252f;
+      border-color: #1a252f;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger);
+      border-color: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background-color: #c0392b;
+      border-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- الشريط الجانبي -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo">آرمن للاستيراد والتصدير</span>
+      <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggler">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="ControlPanel.html">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="UserManagement.html">
+            <i class="fas fa-users"></i>
+            <span>إدارة المستخدمين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CustomerManagement.html">
+            <i class="fas fa-user-tie"></i>
+            <span>إدارة العملاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Tracking.html">
+            <i class="fas fa-chart-line"></i>
+            <span>تتبع الأداء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CurrencyRates.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>أسعار العملات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ShippingOrders.html">
+            <i class="fas fa-shipping-fast"></i>
+            <span>طلبات الشحن</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ExternalOrders.html">
+            <i class="fas fa-edit"></i>
+            <span>الطلبات الخارجية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="Blog.html">
+            <i class="fas fa-newspaper"></i>
+            <span>المدونة</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Partners.html">
+            <i class="fas fa-handshake"></i>
+            <span>الشركاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="OrderDistribution.html">
+            <i class="fas fa-tasks"></i>
+            <span>توزيع الطلبات</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content" id="mainContent">
+    <div class="container-fluid py-4">
+      <!-- عنوان الصفحة -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="page-header d-flex justify-content-between align-items-center">
+       
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- بطاقات الإحصائيات -->
+      <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">إجمالي الأخبار</h6>
+                  <h3 class="mb-0">48</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 12% عن الشهر الماضي
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-newspaper"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">أخبار هذا الشهر</h6>
+                  <h3 class="mb-0">7</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 2 خبر جديد
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-calendar-alt"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">الأخبار الأكثر مشاهدة</h6>
+                  <h3 class="mb-0">1,245</h3>
+                  <p class="mb-0 text-info small">
+                    <i class="fas fa-eye me-1"></i> مشاهدات
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">أخبار معروضة</h6>
+                  <h3 class="mb-0">5</h3>
+                  <p class="mb-0 text-warning small">
+                    <i class="fas fa-sliders-h me-1"></i> معروضة
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+   
+      <!-- قائمة الأخبار -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card">
+       <div class="card-header d-flex justify-content-between align-items-center">
+  <h5 class="mb-0">آخر الأخبار المنشورة</h5>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewsModal">
+    <i class="fas fa-plus me-2"></i>إضافة خبر جديد
+  </button>
+
+
+            </div>
+            
+            <div class="card-body">
+              <div class="row">
+                <!-- خبر 1 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card news-card h-100">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="صورة الخبر">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="news-date"><i class="far fa-calendar-alt me-1"></i> 15 مايو 2023</span>
+                        <div>
+                          <span class="badge bg-success me-1">منشور</span>
+                          
+                        </div>
+                      </div>
+                      <h5 class="card-title">إطلاق خدمة الشحن الجوي السريع إلى الصين</h5>
+                      <p class="card-text">نفخر بالإعلان عن إطلاق خدمة الشحن الجوي السريع مباشرة إلى جميع المدن الصينية الرئيسية بأسعار تنافسية.</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-sm btn-outline-primary">قراءة المزيد</a>
+                        <div>
+                          <button class="btn btn-sm btn-outline-warning me-1" onclick="editNews(1)"><i class="far fa-edit"></i></button>
+                          <button class="btn btn-sm btn-outline-danger" onclick="deleteNews(1)"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- خبر 2 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card news-card h-100">
+                    <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="صورة الخبر">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="news-date"><i class="far fa-calendar-alt me-1"></i> 8 مايو 2023</span>
+                        <div>
+                          <span class="badge bg-success me-1">منشور</span>
+                       
+                        </div>
+                      </div>
+                      <h5 class="card-title">تخفيضات كبيرة على رسوم التخليص الجمركي</h5>
+                      <p class="card-text">بمناسبة الذكرى السنوية لتأسيس الشركة، نقدم تخفيضات تصل إلى 30% على خدمات التخليص الجمركي لجميع العملاء.</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-sm btn-outline-primary">قراءة المزيد</a>
+                        <div>
+                          <button class="btn btn-sm btn-outline-warning me-1" onclick="editNews(2)"><i class="far fa-edit"></i></button>
+                          <button class="btn btn-sm btn-outline-danger" onclick="deleteNews(2)"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- خبر 3 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card news-card h-100">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="صورة الخبر">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="news-date"><i class="far fa-calendar-alt me-1"></i> 1 مايو 2023</span>
+                        <div>
+                          <span class="badge bg-success me-1">منشور</span>
+                        </div>
+                      </div>
+                      <h5 class="card-title">افتتاح فرع جديد في مدينة دبي</h5>
+                      <p class="card-text">يسرنا الإعلان عن افتتاح فرعنا الجديد في دبي لخدمة عملائنا في الإمارات ودول الخليج العربي.</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-sm btn-outline-primary">قراءة المزيد</a>
+                        <div>
+                          <button class="btn btn-sm btn-outline-warning me-1" onclick="editNews(3)"><i class="far fa-edit"></i></button>
+                          <button class="btn btn-sm btn-outline-danger" onclick="deleteNews(3)"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="d-flex justify-content-center mt-4">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal إضافة/تعديل خبر -->
+  <div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newsModalLabel">إضافة خبر جديد</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="newsForm">
+            <input type="hidden" id="newsId">
+            <div class="mb-3">
+              <label for="newsTitle" class="form-label">عنوان الخبر <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="newsTitle" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="newsDate" class="form-label">تاريخ النشر <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="newsDate" required>
+            </div>
+            
+            <div class="mb-3">
+  <label for="newsImageFile" class="form-label">صورة الخبر <span class="text-danger">*</span></label>
+  <input type="file" class="form-control" id="newsImageFile" accept="image/*" required>
+  <div class="mt-2">
+    <img id="imagePreview" src="" alt="معاينة الصورة" class="img-thumbnail" style="max-height: 150px; display: none;">
+  </div>
+</div>
+
+            
+            <div class="mb-3">
+              <label for="newsContent" class="form-label">محتوى الخبر <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="newsContent" rows="6" required></textarea>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="newsStatus" class="form-label">حالة الخبر <span class="text-danger">*</span></label>
+                <select class="form-select" id="newsStatus" required>
+                  <option value="published">منشور</option>
+                  <option value="draft">مسودة</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="newsCategory" class="form-label">التصنيف</label>
+                <select class="form-select" id="newsCategory">
+                  <option value="general">عام</option>
+                  <option value="offers">عروض وتخفيضات</option>
+                  <option value="services">خدمات جديدة</option>
+                  <option value="branches">فروع جديدة</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="featuredNews">
+              <label class="form-check-label" for="featuredNews">عرض في السلايدر الرئيسي</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="button" class="btn btn-danger" id="deleteNewsBtn" style="display: none;">حذف الخبر</button>
+          <button type="button" class="btn btn-primary" id="saveNewsBtn">حفظ الخبر</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JS -->
+  <script>
+    // بيانات الأخبار (ستأتي من قاعدة البيانات في التطبيق الحقيقي)
+    const newsData = {
+      1: {
+        id: 1,
+        title: "إطلاق خدمة الشحن الجوي السريع إلى الصين",
+        date: "2023-05-15",
+        imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+        content: "نفخر بالإعلان عن إطلاق خدمة الشحن الجوي السريع مباشرة إلى جميع المدن الصينية الرئيسية بأسعار تنافسية مع وقت توصيل لا يتجاوز 72 ساعة. هذه الخدمة الجديدة تأتي استجابة لاحتياجات عملائنا الكرام الذين يبحثون عن حلول سريعة وآمنة لنقل بضائعهم.",
+        status: "published",
+        category: "services",
+        featured: true
+      },
+      2: {
+        id: 2,
+        title: "تخفيضات كبيرة على رسوم التخليص الجمركي",
+        date: "2023-05-08",
+        imageUrl: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+        content: "بمناسبة الذكرى السنوية لتأسيس الشركة، نقدم تخفيضات تصل إلى 30% على خدمات التخليص الجمركي لجميع العملاء. هذه العروض سارية طوال شهر مايو 2023 ولجميع أنواع البضائع المستوردة أو المصدرة عبر موانئنا المختلفة.",
+        status: "published",
+        category: "offers",
+        featured: true
+      },
+      3: {
+        id: 3,
+        title: "افتتاح فرع جديد في مدينة دبي",
+        date: "2023-05-01",
+        imageUrl: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+        content: "يسرنا الإعلان عن افتتاح فرعنا الجديد في دبي لخدمة عملائنا في الإمارات ودول الخليج العربي. الفرع الجديد يقدم جميع خدمات الاستيراد والتصدير والشحن الجوي والبحري مع فريق محترف من الخبراء في مجال التجارة الدولية.",
+        status: "published",
+        category: "branches",
+        featured: true
+      }
+    };
+    
+    // معاينة الصورة عند تغيير الرابط
+    $('#newsImageUrl').on('input', function() {
+      const url = $(this).val();
+      if (url) {
+        $('#imagePreview').attr('src', url).show();
+      } else {
+        $('#imagePreview').hide();
+      }
+    });
+    
+    // فتح Modal لإضافة خبر جديد
+    $('[data-bs-target="#addNewsModal"]').click(function() {
+      $('#newsModalLabel').text('إضافة خبر جديد');
+      $('#newsForm')[0].reset();
+      $('#imagePreview').hide();
+      $('#deleteNewsBtn').hide();
+      $('#newsModal').modal('show');
+    });
+    
+    // وظيفة تعديل الخبر
+    function editNews(id) {
+      const news = newsData[id];
+      if (news) {
+        $('#newsModalLabel').text('تعديل الخبر');
+        $('#newsId').val(news.id);
+        $('#newsTitle').val(news.title);
+        $('#newsDate').val(news.date);
+        $('#newsImageUrl').val(news.imageUrl);
+        $('#newsContent').val(news.content);
+        $('#newsStatus').val(news.status);
+        $('#newsCategory').val(news.category);
+        $('#featuredNews').prop('checked', news.featured);
+        $('#imagePreview').attr('src', news.imageUrl).show();
+        $('#deleteNewsBtn').show();
+        $('#newsModal').modal('show');
+      }
+    }
+    
+    // وظيفة حذف الخبر
+    function deleteNews(id) {
+      if (confirm('هل أنت متأكد من حذف هذا الخبر؟ لا يمكن التراجع عن هذه العملية.')) {
+        alert('تم حذف الخبر بنجاح!');
+        // هنا سيتم إرسال طلب حذف إلى الخادم في التطبيق الحقيقي
+        $('#newsModal').modal('hide');
+        // إعادة تحميل الصفحة أو تحديث قائمة الأخبار
+      }
+    }
+    
+    // حفظ الخبر (إضافة/تعديل)
+    $('#saveNewsBtn').click(function() {
+      const form = document.getElementById('newsForm');
+      if (form.checkValidity()) {
+        // هنا سيتم إرسال البيانات إلى الخادم في التطبيق الحقيقي
+        alert('تم حفظ الخبر بنجاح!');
+        $('#newsModal').modal('hide');
+        // إعادة تحميل الصفحة أو تحديث قائمة الأخبار
+      } else {
+        form.classList.add('was-validated');
+      }
+    });
+    
+    // حذف الخبر
+    $('#deleteNewsBtn').click(function() {
+      const id = $('#newsId').val();
+      deleteNews(id);
+    });
+    
+    // تعيين تاريخ اليوم كتاريخ افتراضي
+    const today = new Date().toISOString().split('T')[0];
+    $('#newsDate').val(today);
+  </script>
+</body>
+
+</html>

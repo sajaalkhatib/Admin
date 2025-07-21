@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>لوحة تحكم شركة آرمن للاستيراد والتصدير والتخليص الجمركي</title>
+  
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- CSS المخصص -->
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --secondary: #1ABC9C;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --dark: #1A252F;
+      --success: #27AE60;
+      --warning: #F39C12;
+      --danger: #E74C3C;
+      --border-radius: 0.5rem;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f7fa !important;
+      color: var(--dark);
+    }
+
+    /* الشريط الجانبي */
+    .sidebar {
+      background: linear-gradient(180deg, var(--primary), var(--dark));
+      color: white;
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      right: 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar-brand {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: white;
+    }
+    
+    .sidebar-nav {
+      padding: 1rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-left: 0.75rem;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      margin-right: 280px;
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل العلوي */
+    .topbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .user-dropdown img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* بطاقات الإحصائيات */
+    .stat-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* الجداول */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .data-table thead th {
+      background-color: var(--light);
+      padding: 1rem;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .data-table tbody td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* الحالة */
+    .status-badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-pending {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .status-processing {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+    }
+    
+    .status-completed {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: var(--success);
+    }
+    
+    .status-rejected {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    /* التكيف مع الشاشات الصغيرة */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-right: 0;
+      }
+      
+      .sidebar-toggler {
+        display: block !important;
+      }
+    }
+    
+    /* تصاميم إضافية لإدارة العملاء */
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-weight: bold;
+    }
+    
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 3px;
+    }
+    
+    .add-client-btn {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
+    
+    .add-client-btn:hover {
+      background-color: #16a085;
+    }
+      .table th, .table td {
+            text-align: right;
+        }
+        
+        /* تصاميم تفاصيل الطلب */
+        .order-details-card {
+          border-radius: var(--border-radius);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+          margin-bottom: 1.5rem;
+        }
+        
+        .order-details-header {
+          background-color: var(--primary);
+          color: white;
+          padding: 1rem;
+          border-top-left-radius: var(--border-radius);
+          border-top-right-radius: var(--border-radius);
+        }
+        
+        .order-details-body {
+          padding: 1.5rem;
+          background-color: white;
+          border-bottom-left-radius: var(--border-radius);
+          border-bottom-right-radius: var(--border-radius);
+        }
+        
+        .detail-row {
+          display: flex;
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #eee;
+        }
+        
+        .detail-label {
+          font-weight: 600;
+          width: 200px;
+          color: var(--primary);
+        }
+        
+        .detail-value {
+          flex: 1;
+        }
+        
+        .attachments-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-top: 1rem;
+        }
+        
+        .attachment-item {
+          width: 120px;
+          text-align: center;
+        }
+        
+        .attachment-thumbnail {
+          width: 100%;
+          height: 80px;
+          background-color: #f5f5f5;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: var(--border-radius);
+          margin-bottom: 0.5rem;
+          overflow: hidden;
+        }
+        
+        .attachment-thumbnail img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
+        
+        .activity-timeline {
+          position: relative;
+          padding-right: 1rem;
+        }
+        
+        .activity-timeline::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 10px;
+          height: 100%;
+          width: 2px;
+          background-color: #eee;
+        }
+        
+        .activity-item {
+          position: relative;
+          padding-bottom: 1.5rem;
+          padding-right: 2rem;
+        }
+        
+        .activity-item::before {
+          content: '';
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: var(--accent);
+        }
+        
+        .activity-date {
+          font-size: 0.8rem;
+          color: #6c757d;
+        }
+        
+        .activity-content {
+          margin-top: 0.25rem;
+        }
+        
+        .activity-user {
+          font-weight: 600;
+          color: var(--primary);
+        }
+        
+        /* زر عرض التفاصيل */
+        .view-details-btn {
+          background-color: var(--accent);
+          color: white;
+          border: none;
+          padding: 5px 15px;
+          border-radius: var(--border-radius);
+          font-size: 0.8rem;
+        }
+        
+        .view-details-btn:hover {
+          background-color: #2980b9;
+        }
+        
+        /* مودال تغيير الحالة */
+        .status-select {
+          width: 100%;
+          padding: 0.5rem;
+          border-radius: var(--border-radius);
+          border: 1px solid #ddd;
+        }
+        
+        /* مودال إضافة ملاحظة */
+        .note-textarea {
+          width: 100%;
+          min-height: 100px;
+          padding: 0.75rem;
+          border-radius: var(--border-radius);
+          border: 1px solid #ddd;
+          resize: vertical;
+        }
+  </style>
+</head>
+
+<body>
+  <!-- الشريط الجانبي -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo">آرمن للاستيراد والتصدير</span>
+      <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggler">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="ControlPanel.html">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="UserManagement.html">
+            <i class="fas fa-users"></i>
+            <span>إدارة المستخدمين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CustomerManagement.html">
+            <i class="fas fa-user-tie"></i>
+            <span>إدارة العملاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Tracking.html">
+            <i class="fas fa-chart-line"></i>
+            <span>تتبع الأداء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CurrencyRates.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>أسعار العملات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="ShippingOrders.html">
+            <i class="fas fa-shipping-fast"></i>
+            <span>طلبات الشحن</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ExternalOrders.html">
+            <i class="fas fa-edit"></i>
+            <span>الطلبات الخارجية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CustomsClearance.html">
+            <i class="fas fa-passport"></i>
+            <span>التخليص الجمركي</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Partners.html">
+            <i class="fas fa-handshake"></i>
+            <span>الشركاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="OrderDistribution.html">
+            <i class="fas fa-tasks"></i>
+            <span>توزيع الطلبات</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content" id="mainContent">
+    <!-- شريط التنقل العلوي -->
+ 
+
+    <div class="container-fluid py-4">
+      <!-- عنوان الصفحة -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0"></h4>
+       
+      </div>
+
+      <!-- بطاقات الإحصائيات -->
+      <div class="row mb-4">
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">إجمالي الطلبات</h6>
+                  <h3 class="mb-0">148</h3>
+                </div>
+                <div class="bg-primary bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-boxes text-primary fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">طلبات معلقة</h6>
+                  <h3 class="mb-0">32</h3>
+                </div>
+                <div class="bg-warning bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-clock text-warning fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">طلبات قيد المعالجة</h6>
+                  <h3 class="mb-0">89</h3>
+                </div>
+                <div class="bg-info bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-spinner text-info fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">طلبات مكتملة</h6>
+                  <h3 class="mb-0">27</h3>
+                </div>
+                <div class="bg-success bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-check-circle text-success fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   <div class="container-fluid py-4">
+      <!-- عنوان الصفحة -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">إدارة طلبات الشحن</h4>
+        <div>
+          <button class="btn btn-primary me-2" id="filterBtn">
+            <i class="fas fa-filter me-2"></i>تصفية
+          </button>
+          <button class="btn btn-success" id="exportBtn">
+            <i class="fas fa-file-export me-2"></i>تصدير
+          </button>
+        </div>
+      </div>
+      <!-- جدول طلبات الشحن -->
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">قائمة طلبات الشحن</h5>
+          <div class="d-flex">
+            <div class="input-group me-3" style="width: 250px;">
+              <input type="text" class="form-control" placeholder="ابحث عن طلب..." id="searchInput">
+              <button class="btn btn-outline-secondary" type="button">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>رقم الطلب</th>
+                  <th>اسم العميل</th>
+                  <th>نوع الشحنة</th>
+                  <th>الميناء</th>
+                  <th>الرحلة</th>
+                  <th>الحاوية</th>
+                  <th>نوع النقل</th>
+                  <th>تاريخ التقديم</th>
+                  <th>السعر</th>
+                  <th>الحالة</th>
+                  <th>الموظف المسؤول</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTable">
+                <!-- سيتم ملؤه بالبيانات عبر JavaScript -->
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- الترقيم الصفحي -->
+          <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">السابق</a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">التالي</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal تفاصيل الطلب -->
+  <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderDetailsModalLabel">تفاصيل طلب الشحن #<span id="orderId"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-8">
+              <!-- تفاصيل الطلب الأساسية -->
+              <div class="order-details-card mb-4">
+                <div class="order-details-header">
+                  <h6 class="mb-0">معلومات الطلب الأساسية</h6>
+                </div>
+                <div class="order-details-body">
+                  <div class="detail-row">
+                    <div class="detail-label">اسم العميل:</div>
+                    <div class="detail-value" id="clientName"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">نوع الشحنة:</div>
+                    <div class="detail-value" id="shipmentType"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">الميناء:</div>
+                    <div class="detail-value" id="port"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">الرحلة:</div>
+                    <div class="detail-value" id="voyage"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">الحاوية:</div>
+                    <div class="detail-value" id="container"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">نوع النقل الداخلي:</div>
+                    <div class="detail-value" id="transportType"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">مدينة التحميل:</div>
+                    <div class="detail-value" id="loadingCity"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">عنوان المخزن الصيني:</div>
+                    <div class="detail-value" id="warehouseAddress"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">رقم تواصل صيني:</div>
+                    <div class="detail-value" id="contactNumber"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">تاريخ التقديم:</div>
+                    <div class="detail-value" id="submissionDate"></div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">السعر:</div>
+                    <div class="detail-value" id="price"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- المرفقات -->
+              <div class="order-details-card mb-4">
+                <div class="order-details-header">
+                  <h6 class="mb-0">الملفات المرفقة</h6>
+                </div>
+                <div class="order-details-body">
+                  <div class="attachments-container" id="attachmentsContainer">
+                    <!-- سيتم ملؤه بالبيانات عبر JavaScript -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <!-- حالة الطلب -->
+              <div class="order-details-card mb-4">
+                <div class="order-details-header">
+                  <h6 class="mb-0">حالة الطلب</h6>
+                </div>
+                <div class="order-details-body">
+                  <div class="mb-3">
+                    <select class="status-select" id="statusSelect">
+                      <option value="pending">معلق</option>
+                      <option value="processing">قيد المعالجة</option>
+                      <option value="completed">مكتمل</option>
+                      <option value="rejected">مرفوض</option>
+                    </select>
+                  </div>
+                  <button class="btn btn-primary w-100" id="updateStatusBtn">تحديث الحالة</button>
+                </div>
+              </div>
+              
+              <!-- الموظف المسؤول -->
+              <div class="order-details-card mb-4">
+                <div class="order-details-header">
+                  <h6 class="mb-0">الموظف المسؤول</h6>
+                </div>
+                <div class="order-details-body">
+                  <div class="mb-3">
+                    <select class="form-select" id="employeeSelect">
+                      <option value="1">أحمد محمد - موظف توثيق شحنات</option>
+                      <option value="2">سارة عبدالله - مسؤولة استيراد</option>
+                      <option value="3">خالد أحمد - موظف تخليص جمركي</option>
+                      <option value="4">نورا سعيد - محاسبة شحنات دولية</option>
+                    </select>
+                  </div>
+                  <button class="btn btn-secondary w-100" id="updateEmployeeBtn">تغيير المسؤول</button>
+                </div>
+              </div>
+              
+              <!-- سجل النشاط -->
+              <div class="order-details-card">
+                <div class="order-details-header">
+                  <h6 class="mb-0">سجل النشاط</h6>
+                </div>
+                <div class="order-details-body">
+                  <div class="activity-timeline" id="activityTimeline">
+                    <!-- سيتم ملؤه بالبيانات عبر JavaScript -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- إضافة ملاحظة -->
+          <div class="order-details-card mt-4">
+            <div class="order-details-header">
+              <h6 class="mb-0">إضافة ملاحظة جديدة</h6>
+            </div>
+            <div class="order-details-body">
+              <textarea class="note-textarea" id="noteTextarea" placeholder="اكتب ملاحظتك هنا..."></textarea>
+              <button class="btn btn-success mt-3" id="addNoteBtn">إضافة الملاحظة</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal تصفية الطلبات -->
+  <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="filterModalLabel">تصفية طلبات الشحن</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="filterForm">
+            <div class="mb-3">
+              <label for="filterStatus" class="form-label">حالة الطلب</label>
+              <select class="form-select" id="filterStatus">
+                <option value="">الكل</option>
+                <option value="pending">معلق</option>
+                <option value="processing">قيد المعالجة</option>
+                <option value="completed">مكتمل</option>
+                <option value="rejected">مرفوض</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="filterPort" class="form-label">الميناء</label>
+              <select class="form-select" id="filterPort">
+                <option value="">الكل</option>
+                <option value="جدة الإسلامية">جدة الإسلامية</option>
+                <option value="دمياط">دمياط</option>
+                <option value="دبي">دبي</option>
+                <option value="شنغهاي">شنغهاي</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="filterDateFrom" class="form-label">من تاريخ</label>
+              <input type="date" class="form-control" id="filterDateFrom">
+            </div>
+            <div class="mb-3">
+              <label for="filterDateTo" class="form-label">إلى تاريخ</label>
+              <input type="date" class="form-control" id="filterDateTo">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="button" class="btn btn-primary" id="applyFilterBtn">تطبيق التصفية</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // بيانات طلبات الشحن
+    const shippingOrders = [
+      {
+        id: "SH-2023-001",
+        clientName: "شركة التقنية المتطورة",
+        shipmentType: "أجهزة إلكترونية",
+        port: "جدة الإسلامية",
+        voyage: "Voyage-1245",
+        container: "TGHU-784512",
+        transportType: "شاحنات",
+        loadingCity: "شنغهاي",
+        warehouseAddress: "No. 123, Pudong District, Shanghai",
+        contactNumber: "+86 138 1234 5678",
+        submissionDate: "2023-06-15",
+        price: "12,500 ر.س",
+        status: "processing",
+        employee: "أحمد محمد",
+        attachments: [
+          { name: "invoice.pdf", type: "pdf", url: "#" },
+          { name: "packing_list.jpg", type: "image", url: "#" },
+          { name: "contract.docx", type: "doc", url: "#" }
+        ],
+        activity: [
+          { date: "2023-06-20 14:30", user: "أحمد محمد", action: "تم تغيير حالة الطلب إلى 'قيد المعالجة'" },
+          { date: "2023-06-18 10:15", user: "سارة عبدالله", action: "تم إضافة ملاحظة: 'يجب التأكد من بيانات الفاتورة'" },
+          { date: "2023-06-15 16:45", user: "نظام", action: "تم إنشاء الطلب" }
+        ]
+      },
+      {
+        id: "SH-2023-002",
+        clientName: "مؤسسة الأقمشة الرفيعة",
+        shipmentType: "أقمشة",
+        port: "دمياط",
+        voyage: "Voyage-9876",
+        container: "MSKU-452369",
+        transportType: "قطار",
+        loadingCity: "قوانغتشو",
+        warehouseAddress: "No. 456, Baiyun District, Guangzhou",
+        contactNumber: "+86 139 8765 4321",
+        submissionDate: "2023-06-10",
+        price: "8,750 ر.س",
+        status: "pending",
+        employee: "سارة عبدالله",
+        attachments: [
+          { name: "proforma_invoice.pdf", type: "pdf", url: "#" }
+        ],
+        activity: [
+          { date: "2023-06-12 11:20", user: "سارة عبدالله", action: "تم إضافة ملاحظة: 'في انتظار تأكيد العميل'" },
+          { date: "2023-06-10 09:30", user: "نظام", action: "تم إنشاء الطلب" }
+        ]
+      },
+      {
+        id: "SH-2023-003",
+        clientName: "شركة الأدوات المنزلية",
+        shipmentType: "أدوات مطبخ",
+        port: "دبي",
+        voyage: "Voyage-6543",
+        container: "BMOU-785412",
+        transportType: "شاحنات",
+        loadingCity: "شنتشن",
+        warehouseAddress: "No. 789, Futian District, Shenzhen",
+        contactNumber: "+86 137 1597 3579",
+        submissionDate: "2023-06-05",
+        price: "15,200 ر.س",
+        status: "completed",
+        employee: "خالد أحمد",
+        attachments: [
+          { name: "invoice_003.pdf", type: "pdf", url: "#" },
+          { name: "shipping_docs.zip", type: "zip", url: "#" }
+        ],
+        activity: [
+          { date: "2023-06-08 15:10", user: "خالد أحمد", action: "تم تغيير حالة الطلب إلى 'مكتمل'" },
+          { date: "2023-06-07 13:45", user: "خالد أحمد", action: "تم إضافة ملاحظة: 'تم التخليص الجمركي بنجاح'" },
+          { date: "2023-06-06 10:30", user: "خالد أحمد", action: "تم تغيير حالة الطلب إلى 'قيد المعالجة'" },
+          { date: "2023-06-05 14:20", user: "نظام", action: "تم إنشاء الطلب" }
+        ]
+      },
+      {
+        id: "SH-2023-004",
+        clientName: "شركة الأثاث الفاخر",
+        shipmentType: "أثاث",
+        port: "شنغهاي",
+        voyage: "Voyage-3214",
+        container: "CAIU-963258",
+        transportType: "بحرية",
+        loadingCity: "نينغبو",
+        warehouseAddress: "No. 147, Yinzhou District, Ningbo",
+        contactNumber: "+86 136 2589 1473",
+        submissionDate: "2023-05-28",
+        price: "22,800 ر.س"     ,   status: "rejected",
+        employee: "نورا سعيد",
+        attachments: [
+          { name: "quotation.pdf", type: "pdf", url: "#" },
+          { name: "product_images.zip", type: "zip", url: "#" }
+        ],
+        activity: [
+          { date: "2023-05-30 16:20", user: "نورا سعيد", action: "تم تغيير حالة الطلب إلى 'مرفوض'" },
+          { date: "2023-05-30 10:45", user: "نورا سعيد", action: "تم إضافة ملاحظة: 'الكمية المطلوبة غير متوفرة حالياً'" },
+          { date: "2023-05-29 14:30", user: "نورا سعيد", action: "تم تغيير حالة الطلب إلى 'قيد المعالجة'" },
+          { date: "2023-05-28 11:15", user: "نظام", action: "تم إنشاء الطلب" }
+        ]
+      },
+      {
+        id: "SH-2023-005",
+        clientName: "شركة مواد البناء",
+        shipmentType: "مواد بناء",
+        port: "جدة الإسلامية",
+        voyage: "Voyage-7531",
+        container: "FSCU-852147",
+        transportType: "شاحنات",
+        loadingCity: "تيانجين",
+        warehouseAddress: "No. 258, Binhai District, Tianjin",
+        contactNumber: "+86 135 4862 5973",
+        submissionDate: "2023-05-20",
+        price: "18,300 ر.س",
+        status: "processing",
+        employee: "أحمد محمد",
+        attachments: [],
+        activity: [
+          { date: "2023-05-22 09:15", user: "أحمد محمد", action: "تم تغيير حالة الطلب إلى 'قيد المعالجة'" },
+          { date: "2023-05-20 13:40", user: "نظام", action: "تم إنشاء الطلب" }
+        ]
+      }
+    ];
+
+    // عرض جدول الطلبات
+    function renderOrdersTable(orders) {
+      const tableBody = document.getElementById('ordersTable');
+      tableBody.innerHTML = '';
+      
+      orders.forEach(order => {
+        let statusBadge = '';
+        if (order.status === 'pending') {
+          statusBadge = '<span class="status-badge status-pending">معلق</span>';
+        } else if (order.status === 'processing') {
+          statusBadge = '<span class="status-badge status-processing">قيد المعالجة</span>';
+        } else if (order.status === 'completed') {
+          statusBadge = '<span class="status-badge status-completed">مكتمل</span>';
+        } else if (order.status === 'rejected') {
+          statusBadge = '<span class="status-badge status-rejected">مرفوض</span>';
+        }
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.clientName}</td>
+          <td>${order.shipmentType}</td>
+          <td>${order.port}</td>
+          <td>${order.voyage}</td>
+          <td>${order.container}</td>
+          <td>${order.transportType}</td>
+          <td>${order.submissionDate}</td>
+          <td>${order.price}</td>
+          <td>${statusBadge}</td>
+          <td>${order.employee}</td>
+          <td>
+            <button class="btn btn-sm view-details-btn" data-id="${order.id}">
+              <i class="fas fa-eye me-1"></i> عرض
+            </button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+      
+      // إضافة مستمعات الأحداث لأزرار العرض
+      document.querySelectorAll('.view-details-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const orderId = this.getAttribute('data-id');
+          showOrderDetails(orderId);
+        });
+      });
+    }
+    
+    // عرض تفاصيل الطلب
+    function showOrderDetails(orderId) {
+      const order = shippingOrders.find(o => o.id === orderId);
+      if (!order) return;
+      
+      // تعبئة بيانات الطلب
+      document.getElementById('orderId').textContent = order.id;
+      document.getElementById('clientName').textContent = order.clientName;
+      document.getElementById('shipmentType').textContent = order.shipmentType;
+      document.getElementById('port').textContent = order.port;
+      document.getElementById('voyage').textContent = order.voyage;
+      document.getElementById('container').textContent = order.container;
+      document.getElementById('transportType').textContent = order.transportType;
+      document.getElementById('loadingCity').textContent = order.loadingCity;
+      document.getElementById('warehouseAddress').textContent = order.warehouseAddress;
+      document.getElementById('contactNumber').textContent = order.contactNumber;
+      document.getElementById('submissionDate').textContent = order.submissionDate;
+      document.getElementById('price').textContent = order.price;
+      
+      // تعبئة المرفقات
+      const attachmentsContainer = document.getElementById('attachmentsContainer');
+      attachmentsContainer.innerHTML = '';
+      
+      if (order.attachments.length === 0) {
+        attachmentsContainer.innerHTML = '<p>لا توجد مرفقات</p>';
+      } else {
+        order.attachments.forEach(attachment => {
+          const attachmentItem = document.createElement('div');
+          attachmentItem.className = 'attachment-item';
+          
+          let icon = '';
+          if (attachment.type === 'pdf') {
+            icon = '<i class="fas fa-file-pdf text-danger fs-3"></i>';
+          } else if (attachment.type === 'image') {
+            icon = '<i class="fas fa-file-image text-primary fs-3"></i>';
+          } else if (attachment.type === 'doc') {
+            icon = '<i class="fas fa-file-word text-info fs-3"></i>';
+          } else if (attachment.type === 'zip') {
+            icon = '<i class="fas fa-file-archive text-warning fs-3"></i>';
+          } else {
+            icon = '<i class="fas fa-file text-secondary fs-3"></i>';
+          }
+          
+          attachmentItem.innerHTML = `
+            <div class="attachment-thumbnail">
+              ${icon}
+            </div>
+            <div class="attachment-name text-truncate" style="width: 100%;">${attachment.name}</div>
+            <a href="${attachment.url}" class="btn btn-sm btn-outline-primary mt-1" download>
+              <i class="fas fa-download"></i>
+            </a>
+          `;
+          attachmentsContainer.appendChild(attachmentItem);
+        });
+      }
+      
+      // تعبئة سجل النشاط
+      const activityTimeline = document.getElementById('activityTimeline');
+      activityTimeline.innerHTML = '';
+      
+      order.activity.forEach(activity => {
+        const activityItem = document.createElement('div');
+        activityItem.className = 'activity-item';
+        activityItem.innerHTML = `
+          <div class="activity-date">${activity.date}</div>
+          <div class="activity-content">
+            <span class="activity-user">${activity.user}:</span> ${activity.action}
+          </div>
+        `;
+        activityTimeline.appendChild(activityItem);
+      });
+      
+      // تعيين الحالة الحالية
+      document.getElementById('statusSelect').value = order.status;
+      
+      // عرض المودال
+      const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+      modal.show();
+    }
+    
+    // تصفية الطلبات
+    function filterOrders() {
+      const status = document.getElementById('filterStatus').value;
+      const port = document.getElementById('filterPort').value;
+      const dateFrom = document.getElementById('filterDateFrom').value;
+      const dateTo = document.getElementById('filterDateTo').value;
+      
+      let filteredOrders = [...shippingOrders];
+      
+      if (status) {
+        filteredOrders = filteredOrders.filter(order => order.status === status);
+      }
+      
+      if (port) {
+        filteredOrders = filteredOrders.filter(order => order.port === port);
+      }
+      
+      if (dateFrom) {
+        filteredOrders = filteredOrders.filter(order => new Date(order.submissionDate) >= new Date(dateFrom));
+      }
+      
+      if (dateTo) {
+        filteredOrders = filteredOrders.filter(order => new Date(order.submissionDate) <= new Date(dateTo));
+      }
+      
+      renderOrdersTable(filteredOrders);
+    }
+    
+    // البحث عن الطلبات
+    function searchOrders() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      
+      if (!searchTerm) {
+        renderOrdersTable(shippingOrders);
+        return;
+      }
+      
+      const filteredOrders = shippingOrders.filter(order => 
+        order.id.toLowerCase().includes(searchTerm) || 
+        order.clientName.toLowerCase().includes(searchTerm) ||
+        order.shipmentType.toLowerCase().includes(searchTerm) ||
+        order.port.toLowerCase().includes(searchTerm) ||
+        order.voyage.toLowerCase().includes(searchTerm) ||
+        order.container.toLowerCase().includes(searchTerm) ||
+        order.employee.toLowerCase().includes(searchTerm)
+      );
+      
+      renderOrdersTable(filteredOrders);
+    }
+    
+    // تهيئة الصفحة عند التحميل
+    document.addEventListener('DOMContentLoaded', function() {
+      // عرض جدول الطلبات
+      renderOrdersTable(shippingOrders);
+      
+      // مستمع حدث لزر التصفية
+      document.getElementById('filterBtn').addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('filterModal'));
+        modal.show();
+      });
+      
+      // مستمع حدث لتطبيق التصفية
+      document.getElementById('applyFilterBtn').addEventListener('click', function() {
+        filterOrders();
+        const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
+        modal.hide();
+      });
+      
+      // مستمع حدث للبحث
+      document.getElementById('searchInput').addEventListener('input', searchOrders);
+      
+      // مستمع حدث لتحديث الحالة
+      document.getElementById('updateStatusBtn').addEventListener('click', function() {
+        const orderId = document.getElementById('orderId').textContent;
+        const newStatus = document.getElementById('statusSelect').value;
+        
+        // في تطبيق حقيقي، هنا ستكون استدعاء API لتحديث الحالة
+        const order = shippingOrders.find(o => o.id === orderId);
+        if (order) {
+          order.status = newStatus;
+          
+          // إضافة نشاط جديد
+          const now = new Date();
+          const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+          
+          order.activity.unshift({
+            date: dateStr,
+            user: "مدير النظام",
+            action: `تم تغيير حالة الطلب إلى '${getStatusText(newStatus)}'`
+          });
+          
+          // إعادة عرض الجدول
+          renderOrdersTable(shippingOrders);
+          
+          // إعادة تعبئة سجل النشاط
+          const activityTimeline = document.getElementById('activityTimeline');
+          activityTimeline.innerHTML = '';
+          
+          order.activity.forEach(activity => {
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item';
+            activityItem.innerHTML = `
+              <div class="activity-date">${activity.date}</div>
+              <div class="activity-content">
+                <span class="activity-user">${activity.user}:</span> ${activity.action}
+              </div>
+            `;
+            activityTimeline.appendChild(activityItem);
+          });
+          
+          alert('تم تحديث حالة الطلب بنجاح');
+        }
+      });
+      
+      // مستمع حدث لإضافة ملاحظة
+      document.getElementById('addNoteBtn').addEventListener('click', function() {
+        const orderId = document.getElementById('orderId').textContent;
+        const noteText = document.getElementById('noteTextarea').value.trim();
+        
+        if (!noteText) {
+          alert('الرجاء إدخال نص الملاحظة');
+          return;
+        }
+        
+        // في تطبيق حقيقي، هنا ستكون استدعاء API لإضافة الملاحظة
+        const order = shippingOrders.find(o => o.id === orderId);
+        if (order) {
+          const now = new Date();
+          const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+          
+          order.activity.unshift({
+            date: dateStr,
+            user: "مدير النظام",
+            action: `تم إضافة ملاحظة: '${noteText}'`
+          });
+          
+          // إعادة تعبئة سجل النشاط
+          const activityTimeline = document.getElementById('activityTimeline');
+          activityTimeline.innerHTML = '';
+          
+          order.activity.forEach(activity => {
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item';
+            activityItem.innerHTML = `
+              <div class="activity-date">${activity.date}</div>
+              <div class="activity-content">
+                <span class="activity-user">${activity.user}:</span> ${activity.action}
+              </div>
+            `;
+            activityTimeline.appendChild(activityItem);
+          });
+          
+          // مسح حقل الملاحظة
+          document.getElementById('noteTextarea').value = '';
+          
+          alert('تم إضافة الملاحظة بنجاح');
+        }
+      });
+      
+      // مستمع حدث لتغيير الموظف المسؤول
+      document.getElementById('updateEmployeeBtn').addEventListener('click', function() {
+        const orderId = document.getElementById('orderId').textContent;
+        const employeeSelect = document.getElementById('employeeSelect');
+        const newEmployee = employeeSelect.options[employeeSelect.selectedIndex].text;
+        
+        // في تطبيق حقيقي، هنا ستكون استدعاء API لتحديث الموظف المسؤول
+        const order = shippingOrders.find(o => o.id === orderId);
+        if (order) {
+          order.employee = newEmployee.split(' - ')[0];
+          
+          // إضافة نشاط جديد
+          const now = new Date();
+          const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+          
+          order.activity.unshift({
+            date: dateStr,
+            user: "مدير النظام",
+            action: `تم تغيير الموظف المسؤول إلى '${newEmployee}'`
+          });
+          
+          // إعادة عرض الجدول
+          renderOrdersTable(shippingOrders);
+          
+          // إعادة تعبئة سجل النشاط
+          const activityTimeline = document.getElementById('activityTimeline');
+          activityTimeline.innerHTML = '';
+          
+          order.activity.forEach(activity => {
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item';
+            activityItem.innerHTML = `
+              <div class="activity-date">${activity.date}</div>
+              <div class="activity-content">
+                <span class="activity-user">${activity.user}:</span> ${activity.action}
+              </div>
+            `;
+            activityTimeline.appendChild(activityItem);
+          });
+          
+          alert('تم تغيير الموظف المسؤول بنجاح');
+        }
+      });
+      
+      // مستمع حدث لزر تصدير البيانات
+      document.getElementById('exportBtn').addEventListener('click', function() {
+        // في تطبيق حقيقي، هنا ستكون عملية تصدير البيانات
+        alert('سيتم تصدير البيانات إلى ملف Excel');
+      });
+      
+      // مستمع حدث لتبديل الشريط الجانبي
+      document.querySelector('.sidebar-toggler').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('show');
+      });
+    });
+    
+    // مساعد للحصول على نص الحالة
+    function getStatusText(status) {
+      switch(status) {
+        case 'pending': return 'معلق';
+        case 'processing': return 'قيد المعالجة';
+        case 'completed': return 'مكتمل';
+        case 'rejected': return 'مرفوض';
+        default: return '';
+      }
+    }
+  </script>
+</body>
+</html>

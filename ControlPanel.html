@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>لوحة تحكم شركة آرمن للاستيراد والتصدير</title>
+  
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- CSS المخصص -->
+  <style>
+    .special-card.tracking {
+  background-color: #6c7a89; /* لون أفتح بدرجتين تقريبًا */
+  color: white;
+  border-radius: 10px;
+}
+
+    :root {
+      --primary: #2C3E50;
+      --secondary: #1ABC9C;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --dark: #1A252F;
+      --success: #27AE60;
+      --warning: #F39C12;
+      --danger: #E74C3C;
+      --border-radius: 0.5rem;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f7fa !important;
+      color: var(--dark);
+    }
+    .special-card.tracking {
+  background-color: #a6afb8; /* لون أفتح بدرجتين تقريبيًا */
+  color: white;
+  border-radius: 10px;
+}
+
+    /* الشريط الجانبي */
+    .sidebar {
+      background: linear-gradient(180deg, var(--primary), var(--dark));
+      color: white;
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      right: 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar-brand {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: white;
+    }
+    
+    .sidebar-nav {
+      padding: 1rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-left: 0.75rem;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      margin-right: 280px;
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل العلوي */
+    .topbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .user-dropdown img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* بطاقات الإحصائيات */
+    .stat-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-card .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background-color: rgba(26, 188, 156, 0.1);
+      color: var(--secondary);
+    }
+    
+    .stat-card .card-icon.primary {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+    }
+    
+    .stat-card .card-icon.warning {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .stat-card .card-icon.danger {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    /* بطاقات خاصة */
+    .special-card {
+      border: none;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      height: 100%;
+      color: white;
+    }
+    
+    .special-card.tracking {
+      background: linear-gradient(135deg, #3498DB, #2C3E50);
+    }
+    
+    .special-card.weather {
+      background: linear-gradient(135deg, #E74C3C, #C0392B);
+    }
+    
+    /* الجداول */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .data-table thead th {
+      background-color: var(--light);
+      padding: 1rem;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .data-table tbody td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* الحالة */
+    .status-badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-badge.success {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: var(--success);
+    }
+    
+    .status-badge.warning {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .status-badge.danger {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    .status-badge.info {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+    }
+    
+    /* الرسوم البيانية */
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+    
+    /* التكيف مع الشاشات الصغيرة */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-right: 0;
+      }
+      
+      .sidebar-toggler {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- الشريط الجانبي -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo">آرمن للاستيراد والتصدير</span>
+      <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggler">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="ControlPanel.html">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="UserManagement.html">
+            <i class="fas fa-users"></i>
+            <span>إدارة المستخدمين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CustomerManagement.html">
+            <i class="fas fa-user-tie"></i>
+            <span>إدارة العملاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Tracking.html">
+            <i class="fas fa-chart-line"></i>
+            <span>تتبع الأداء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CurrencyRates.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>أسعار العملات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ShippingOrders.html">
+            <i class="fas fa-shipping-fast"></i>
+            <span>طلبات الشحن</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ExternalOrders.html">
+            <i class="fas fa-edit"></i>
+            <span>الطلبات الخارجية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Blog.html">
+            <i class="fas fa-newspaper"></i>
+            <span>المدونة</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Partners.html">
+            <i class="fas fa-handshake"></i>
+            <span>الشركاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="OrderDistribution.html">
+            <i class="fas fa-tasks"></i>
+            <span>توزيع الطلبات</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content" id="mainContent">
+
+    <div class="container-fluid py-4">
+      <!-- بطاقات الإحصائيات -->
+      <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">واردات الشهر</h6>
+                  <h3 class="mb-0">150 حاوية</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 12% عن الشهر الماضي
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-box-open"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">صادرات الشهر</h6>
+                  <h3 class="mb-0">96 شحنة</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 8% عن الشهر الماضي
+                  </p>
+                </div>
+                <div class="card-icon primary">
+                  <i class="fas fa-truck"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">معاملات جمركية</h6>
+                  <h3 class="mb-0">320 معاملة</h3>
+                  <p class="mb-0 text-danger small">
+                    <i class="fas fa-arrow-down me-1"></i> 4% عن الأسبوع الماضي
+                  </p>
+                </div>
+                <div class="card-icon warning">
+                  <i class="fas fa-file-contract"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">الإيرادات الشهرية</h6>
+                  <h3 class="mb-0">$215,000</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 10% عن الشهر الماضي
+                  </p>
+                </div>
+                <div class="card-icon danger">
+                  <i class="fas fa-dollar-sign"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- الصف الثاني -->
+      <div class="row mb-4">
+        <!-- مخطط الأداء السنوي -->
+        <div class="col-lg-8 mb-4">
+          <div class="card">
+            <div class="card-header bg-white border-0">
+              <h6 class="mb-0">أداء الشحن السنوي</h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="annualChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- حالة الشحنات -->
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <div class="card-header bg-white border-0">
+              <h6 class="mb-0">حالة الشحنات</h6>
+            </div>
+            <div class="card-body">
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span>تم التسليم</span>
+                  <span>75%</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 75%"></div>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span>قيد النقل</span>
+                  <span>15%</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 15%"></div>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span>متأخرة</span>
+                  <span>7%</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar bg-danger" role="progressbar" style="width: 7%"></div>
+                </div>
+              </div>
+              
+              <div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span>قيد التجهيز</span>
+                  <span>3%</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar bg-info" role="progressbar" style="width: 3%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- الصف الثالث -->
+      <div class="row">
+        <!-- تتبع الشاحنات -->
+        <div class="col-lg-6 mb-4" >
+          <div class="card  tracking"style=" background-color:  #b8cff2 !important">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0 text-white">تتبع الشاحنات</h5>
+                <button class="btn btn-sm btn-outline-light">
+                  <i class="fas fa-plus me-1"></i> إضافة
+                </button>
+              </div>
+              
+              <div class="table-responsive">
+                <table class="data-table text-black">
+                  <thead>
+                    <tr>
+                      <th>رقم الشاحنة</th>
+                      <th>الموقع</th>
+                      <th>الوجهة</th>
+                      <th>الحالة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="fw-bold">TRK-001</td>
+                      <td>الخليل</td>
+                      <td>رام الله</td>
+                      <td>
+                        <span class="status-badge warning">قيد النقل</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">TRK-002</td>
+                      <td>بكين</td>
+                      <td>شانغهاي</td>
+                      <td>
+                        <span class="status-badge success">تم التوصيل</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">TRK-003</td>
+                      <td>نابلس</td>
+                      <td>جنين</td>
+                      <td>
+                        <span class="status-badge danger">تأخير</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">TRK-004</td>
+                      <td>غوانزو</td>
+                      <td>هونغ كونغ</td>
+                      <td>
+                        <span class="status-badge info">قيد التحميل</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- حالة الطقس -->
+        <div class="col-lg-6 mb-4">
+          <div class="card special-card weather">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0 text-white">حالة الطقس</h5>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-light active">فلسطين</button>
+                  <button class="btn btn-outline-light">الصين</button>
+                </div>
+              </div>
+              
+              <div class="text-center mb-4">
+                <h2 class="text-white">الخليل, فلسطين</h2>
+                <div class="d-flex justify-content-center align-items-center">
+                  <i class="fas fa-sun fa-3x text-warning me-3"></i>
+                  <h1 class="text-white mb-0">31°C</h1>
+                </div>
+                <p class="text-white-50 mb-0">مشمس • رطوبة 45%</p>
+              </div>
+              
+              <div class="row text-center">
+                <div class="col">
+                  <p class="text-white mb-1">السبت</p>
+                  <i class="fas fa-sun text-warning mb-1"></i>
+                  <p class="text-white mb-0">31°</p>
+                </div>
+                <div class="col">
+                  <p class="text-white mb-1">الأحد</p>
+                  <i class="fas fa-cloud text-white mb-1"></i>
+                  <p class="text-white mb-0">29°</p>
+                </div>
+                <div class="col">
+                  <p class="text-white mb-1">الإثنين</p>
+                  <i class="fas fa-cloud-rain text-white mb-1"></i>
+                  <p class="text-white mb-0">27°</p>
+                </div>
+                <div class="col">
+                  <p class="text-white mb-1">الثلاثاء</p>
+                  <i class="fas fa-sun text-warning mb-1"></i>
+                  <p class="text-white mb-0">30°</p>
+                </div>
+                <div class="col">
+                  <p class="text-white mb-1">الأربعاء</p>
+                  <i class="fas fa-cloud text-white mb-1"></i>
+                  <p class="text-white mb-0">28°</p>
+                </div>
+              </div>
+              
+              <div class="alert alert-warning mt-4 mb-0">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                أمطار متوقعة يوم الإثنين - ينصح بتأجيل الشحنات البرية
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // تبديل الشريط الجانبي
+    document.querySelectorAll('.sidebar-toggler').forEach(toggler => {
+      toggler.addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('show');
+      });
+    });
+    
+    // مخطط الأداء السنوي
+    const annualCtx = document.getElementById('annualChart').getContext('2d');
+    const annualChart = new Chart(annualCtx, {
+      type: 'bar',
+      data: {
+        labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+        datasets: [
+          {
+            label: 'واردات',
+            data: [120, 190, 170, 210, 230, 250, 220, 240, 260, 280, 300, 320],
+            backgroundColor: '#1ABC9C',
+            borderRadius: 5
+          },
+          {
+            label: 'صادرات',
+            data: [80, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210],
+            backgroundColor: '#3498DB',
+            borderRadius: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            rtl: true
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: '#f0f0f0'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

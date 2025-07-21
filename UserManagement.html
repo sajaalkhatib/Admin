@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>لوحة تحكم شركة آرمن للاستيراد والتصدير</title>
+  
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- CSS المخصص -->
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --secondary: #1ABC9C;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --dark: #1A252F;
+      --success: #27AE60;
+      --warning: #F39C12;
+      --danger: #E74C3C;
+      --border-radius: 0.5rem;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f7fa !important;
+      color: var(--dark);
+    }
+
+    /* الشريط الجانبي */
+    .sidebar {
+      background: linear-gradient(180deg, var(--primary), var(--dark));
+      color: white;
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      right: 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar-brand {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: white;
+    }
+    
+    .sidebar-nav {
+      padding: 1rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-left: 0.75rem;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      margin-right: 280px;
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل العلوي */
+    .topbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .user-dropdown img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* بطاقات الإحصائيات */
+    .stat-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* الجداول */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .data-table thead th {
+      background-color: var(--light);
+      padding: 1rem;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .data-table tbody td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* الحالة */
+    .status-badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-badge.success {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: var(--success);
+    }
+    
+    .status-badge.warning {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .status-badge.danger {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    .status-badge.info {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+    }
+    
+    /* التكيف مع الشاشات الصغيرة */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-right: 0;
+      }
+      
+      .sidebar-toggler {
+        display: block !important;
+      }
+    }
+    
+    /* تصاميم إضافية لإدارة المستخدمين */
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-weight: bold;
+    }
+    
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 3px;
+    }
+    
+    .add-user-btn {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+    }
+    
+    .add-user-btn:hover {
+      background-color: #16a085;
+    }
+    
+    .rating-stars {
+      color: var(--warning);
+      font-size: 0.9rem;
+    }
+    
+    /* مودال إضافة مستخدم */
+    .modal-header {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .modal-footer {
+      border-top: none;
+    }
+    
+    /* كلمة المرور المشفرة */
+    .password-field {
+      font-family: monospace;
+      letter-spacing: 2px;
+      color: #666;
+    }
+    
+    /* الترقيم الصفحي */
+    .pagination .page-item.active .page-link {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .pagination .page-link {
+      color: var(--primary);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- الشريط الجانبي -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo">آرمن للاستيراد والتصدير</span>
+      <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggler">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="ControlPanel.html">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="UserManagement.html">
+            <i class="fas fa-users"></i>
+            <span>إدارة المستخدمين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CustomerManagement.html">
+            <i class="fas fa-user-tie"></i>
+            <span>إدارة العملاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Tracking.html">
+            <i class="fas fa-chart-line"></i>
+            <span>تتبع الأداء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CurrencyRates.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>أسعار العملات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ShippingOrders.html">
+            <i class="fas fa-shipping-fast"></i>
+            <span>طلبات الشحن</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ExternalOrders.html">
+            <i class="fas fa-edit"></i>
+            <span>الطلبات الخارجية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Blog.html">
+            <i class="fas fa-newspaper"></i>
+            <span>المدونة</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Partners.html">
+            <i class="fas fa-handshake"></i>
+            <span>الشركاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="OrderDistribution.html">
+            <i class="fas fa-tasks"></i>
+            <span>توزيع الطلبات</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content" id="mainContent">
+
+
+    <div class="container-fluid py-4">
+      <!-- عنوان الصفحة -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">إدارة المستخدمين</h4>
+        <button class="btn add-user-btn" data-bs-toggle="modal" data-bs-target="#addUserModal">
+          <i class="fas fa-plus me-2"></i>إضافة مستخدم
+        </button>
+      </div>
+
+      <!-- بطاقات الإحصائيات -->
+      <div class="row mb-4">
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">إجمالي المستخدمين</h6>
+                  <h3 class="mb-0">24</h3>
+                </div>
+                <div class="bg-primary bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-users text-primary fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">المحاسبون</h6>
+                  <h3 class="mb-0">8</h3>
+                </div>
+                <div class="bg-success bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-calculator text-success fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">المخلصون الجمركيون</h6>
+                  <h3 class="mb-0">16</h3>
+                </div>
+                <div class="bg-info bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-file-contract text-info fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-2 text-muted">متوسط التقييم</h6>
+                  <h3 class="mb-0">4.2</h3>
+                </div>
+                <div class="bg-warning bg-opacity-10 p-3 rounded">
+                  <i class="fas fa-star text-warning fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- جدول المستخدمين -->
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>المستخدم</th>
+                  <th>الرقم الوطني</th>
+                  <th>رقم الهاتف</th>
+                  <th>البريد الإلكتروني</th>
+                  <th>كلمة المرور</th>
+                  <th>الوظيفة</th>
+                  <th>تقييم الأداء</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <!-- سيتم ملؤه بالبيانات من الجافاسكريبت -->
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- الترقيم الصفحي -->
+          <nav class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination">
+              <!-- سيتم ملؤه بالجافاسكريبت -->
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال إضافة/تعديل مستخدم -->
+  <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">إضافة مستخدم جديد</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="userForm">
+            <input type="hidden" id="userId">
+            <div class="mb-3">
+              <label for="fullName" class="form-label">الاسم الكامل</label>
+              <input type="text" class="form-control" id="fullName" required>
+            </div>
+            <div class="mb-3">
+              <label for="nationalId" class="form-label">الرقم الوطني</label>
+              <input type="text" class="form-control" id="nationalId" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">رقم الهاتف</label>
+              <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">البريد الإلكتروني</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">كلمة المرور</label>
+              <input type="password" class="form-control" id="password" required>
+            </div>
+            <div class="mb-3">
+              <label for="jobTitle" class="form-label">الوظيفة</label>
+              <select class="form-select" id="jobTitle" required>
+                <option value="" selected disabled>اختر الوظيفة</option>
+                <option value="accountant">محاسب</option>
+                <option value="customs_agent">مخلص جمركي</option>
+              </select>
+            </div>
+        <div class="mb-3">
+  <label for="rating" class="form-label">تقييم الأداء (من 1 إلى 10)</label>
+  <input type="number" class="form-control border-0 shadow-none" id="rating" min="1" max="10" required style="background-color: transparent;">
+</div>
+>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="button" class="btn btn-primary" id="saveUserBtn">حفظ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // بيانات المستخدمين (يمكن استبدالها بطلب AJAX لخادم حقيقي)
+    let users = [
+      {
+        id: 1,
+        name: "أحمد محمد",
+        nationalId: "987654321",
+        phone: "0599123456",
+        email: "ahmed@armin.com",
+        password: "ahmed123",
+        job: "customs_agent",
+        rating: 4.5
+      },
+      {
+        id: 2,
+        name: "سارة أحمد",
+        nationalId: "123456789",
+        phone: "0599876543",
+        email: "sara@armin.com",
+        password: "sara456",
+        job: "accountant",
+        rating: 5
+      },
+      {
+        id: 3,
+        name: "محمود علي",
+        nationalId: "456789123",
+        phone: "0599456789",
+        email: "mahmoud@armin.com",
+        password: "mahmoud789",
+        job: "customs_agent",
+        rating: 4
+      },
+      {
+        id: 4,
+        name: "هدى خالد",
+        nationalId: "789123456",
+        phone: "0599789123",
+        email: "huda@armin.com",
+        password: "huda012",
+        job: "accountant",
+        rating: 3.5
+      },
+      {
+        id: 5,
+        name: "خالد سعيد",
+        nationalId: "321654987",
+        phone: "0599321654",
+        email: "khaled@armin.com",
+        password: "khaled345",
+        job: "customs_agent",
+        rating: 4
+      },
+      {
+        id: 6,
+        name: "نورا محمد",
+        nationalId: "654987321",
+        phone: "0599654987",
+        email: "nora@armin.com",
+        password: "nora678",
+        job: "accountant",
+        rating: 4.5
+      }
+    ];
+
+    // متغيرات الترقيم الصفحي
+    const itemsPerPage = 4;
+    let currentPage = 1;
+    let totalPages = Math.ceil(users.length / itemsPerPage);
+
+    // DOM Elements
+    const usersTableBody = document.getElementById('usersTableBody');
+    const pagination = document.getElementById('pagination');
+    const userModal = new bootstrap.Modal(document.getElementById('userModal'));
+    const saveUserBtn = document.getElementById('saveUserBtn');
+    const modalTitle = document.getElementById('modalTitle');
+    const userForm = document.getElementById('userForm');
+
+    // تهيئة الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+      renderUsers();
+      renderPagination();
+      
+      // تبديل الشريط الجانبي
+      document.querySelectorAll('.sidebar-toggler').forEach(toggler => {
+        toggler.addEventListener('click', function() {
+          document.getElementById('sidebar').classList.toggle('show');
+        });
+      });
+    });
+
+    // عرض المستخدمين في الجدول
+    function renderUsers() {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const usersToShow = users.slice(startIndex, endIndex);
+      
+      usersTableBody.innerHTML = '';
+      
+      usersToShow.forEach(user => {
+        const row = document.createElement('tr');
+        
+      let starsHtml = `<span class="badge bg-info">${user.rating} / 10</span>`;
+rating: parseFloat(document.getElementById('rating').value)
+
+        
+        // إضافة خلية كلمة المرور المشفرة
+        const encryptedPassword = '*'.repeat(8); // عرض 8 نجوم بدلاً من كلمة المرور
+        
+        row.innerHTML = `
+          <td>${user.id}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="user-avatar me-2">${user.name.split(' ').map(n => n[0]).join('')}</div>
+              <span>${user.name}</span>
+            </div>
+          </td>
+          <td>${user.nationalId}</td>
+          <td>${user.phone}</td>
+          <td>${user.email}</td>
+          <td class="password-field">${encryptedPassword}</td>
+          <td>
+            <span class="badge ${user.job === 'accountant' ? 'bg-success' : 'bg-primary'}">
+              ${user.job === 'accountant' ? 'محاسب' : 'مخلص جمركي'}
+            </span>
+          </td>
+          <td>
+            <div class="rating-stars">
+              ${starsHtml}
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary action-btn edit-btn" data-id="${user.id}" title="تعديل">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger action-btn delete-btn" data-id="${user.id}" title="حذف">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        `;
+        
+        usersTableBody.appendChild(row);
+      });
+      
+      // إضافة معالجات الأحداث للأزرار الجديدة
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const userId = parseInt(this.getAttribute('data-id'));
+          editUser(userId);
+        });
+      });
+      
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const userId = parseInt(this.getAttribute('data-id'));
+          deleteUser(userId);
+        });
+      });
+    }
+
+    // عرض الترقيم الصفحي
+    function renderPagination() {
+      pagination.innerHTML = '';
+      
+      // زر السابق
+      const prevLi = document.createElement('li');
+      prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+      prevLi.innerHTML = `
+        <a class="page-link" href="#" aria-label="السابق">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      `;
+      prevLi.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+          currentPage--;
+          renderUsers();
+          renderPagination();
+        }
+      });
+      pagination.appendChild(prevLi);
+      
+      // أرقام الصفحات
+      for (let i = 1; i <= totalPages; i++) {
+        const pageLi = document.createElement('li');
+        pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        
+        pageLi.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentPage = i;
+          renderUsers();
+          renderPagination();
+        });
+        
+        pagination.appendChild(pageLi);
+      }
+      
+      // زر التالي
+      const nextLi = document.createElement('li');
+      nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+      nextLi.innerHTML = `
+        <a class="page-link" href="#" aria-label="التالي">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      `;
+      nextLi.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderUsers();
+          renderPagination();
+        }
+      });
+      pagination.appendChild(nextLi);
+    }
+
+    // فتح نموذج إضافة مستخدم
+    document.querySelector('.add-user-btn').addEventListener('click', function() {
+      modalTitle.textContent = 'إضافة مستخدم جديد';
+      userForm.reset();
+      document.getElementById('userId').value = '';
+      userModal.show();
+    });
+
+    // تعديل مستخدم
+    function editUser(userId) {
+      const user = users.find(u => u.id === userId);
+      if (user) {
+        modalTitle.textContent = 'تعديل المستخدم';
+        document.getElementById('userId').value = user.id;
+        document.getElementById('fullName').value = user.name;
+        document.getElementById('nationalId').value = user.nationalId;
+        document.getElementById('phone').value = user.phone;
+        document.getElementById('email').value = user.email;
+        document.getElementById('password').value = user.password;
+        document.getElementById('jobTitle').value = user.job;
+document.getElementById('rating').value = user.rating;
+        
+        userModal.show();
+      }
+    }
+
+    // حذف مستخدم
+    function deleteUser(userId) {
+      if (confirm('هل أنت متأكد من حذف هذا المستخدم؟')) {
+        users = users.filter(user => user.id !== userId);
+        totalPages = Math.ceil(users.length / itemsPerPage);
+        
+        // التأكد من أن الصفحة الحالية ضمن الحدود الجديدة
+        if (currentPage > totalPages) {
+          currentPage = totalPages;
+        }
+        
+        renderUsers();
+        renderPagination();
+        alert('تم حذف المستخدم بنجاح');
+      }
+    }
+
+    // حفظ المستخدم (إضافة/تعديل)
+    saveUserBtn.addEventListener('click', function() {
+      const userId = document.getElementById('userId').value;
+      const userData = {
+        name: document.getElementById('fullName').value,
+        nationalId: document.getElementById('nationalId').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        job: document.getElementById('jobTitle').value,
+        rating: parseFloat(document.getElementById('rating').value)
+      };
+      
+      if (userId) {
+        // تعديل مستخدم موجود
+        const index = users.findIndex(u => u.id === parseInt(userId));
+        if (index !== -1) {
+          users[index] = { ...users[index], ...userData };
+        }
+      } else {
+        // إضافة مستخدم جديد
+        const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+        users.push({ id: newId, ...userData });
+        totalPages = Math.ceil(users.length / itemsPerPage);
+      }
+      
+      userModal.hide();
+      renderUsers();
+      renderPagination();
+    });
+  </script>
+</body>
+
+</html>

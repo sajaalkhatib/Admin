@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>إدارة الطلبات الخارجية - شركة آرمن للاستيراد والتصدير</title>
+  
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- Select2 for searchable dropdowns -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  
+  <!-- CSS المخصص -->
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --secondary: #1ABC9C;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --dark: #1A252F;
+      --success: #27AE60;
+      --warning: #F39C12;
+      --danger: #E74C3C;
+      --border-radius: 0.5rem;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f5f7fa !important;
+      color: var(--dark);
+    }
+
+    /* الشريط الجانبي */
+    .sidebar {
+      background: linear-gradient(180deg, var(--primary), var(--dark));
+      color: white;
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      right: 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar-brand {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: white;
+    }
+    
+    .sidebar-nav {
+      padding: 1rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-left: 0.75rem;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      margin-right: 280px;
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل العلوي */
+    .topbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .user-dropdown img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* بطاقات الإحصائيات */
+    .stat-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-card .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background-color: rgba(26, 188, 156, 0.1);
+      color: var(--secondary);
+    }
+    
+    /* الجداول */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .data-table thead th {
+      background-color: var(--light);
+      padding: 1rem;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .data-table tbody td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+    
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* الحالة */
+    .status-badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-badge.success {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: var(--success);
+    }
+    
+    .status-badge.warning {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .status-badge.danger {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+    }
+    
+    .status-badge.info {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+    }
+    
+    /* النماذج */
+    .form-card {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-card .card-header {
+      background-color: var(--primary);
+      color: white;
+      border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+    }
+    
+    /* معاينة الملفات */
+    .file-preview-container {
+      margin-top: 15px;
+      display: none;
+    }
+    
+    .file-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .file-preview-item {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 5px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+    }
+    
+    .file-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .file-preview-item .remove-file {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    /* التكيف مع الشاشات الصغيرة */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-right: 0;
+      }
+      
+      .sidebar-toggler {
+        display: block !important;
+      }
+    }
+    
+    /* تخصيص Select2 لـ RTL */
+    .select2-container--default .select2-selection--single {
+      height: 38px;
+      border: 1px solid #ced4da;
+      border-radius: 0.375rem;
+    }
+    
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      line-height: 36px;
+      text-align: right;
+    }
+    
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      left: 7px;
+      right: auto;
+    }
+    
+    /* تحسينات للواجهة */
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-control, .form-select {
+      border-radius: var(--border-radius);
+      padding: 0.5rem 1rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .btn-primary:hover {
+      background-color: #1a252f;
+      border-color: #1a252f;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- الشريط الجانبي -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo">آرمن للاستيراد والتصدير</span>
+      <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggler">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="ControlPanel.html">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="UserManagement.html">
+            <i class="fas fa-users"></i>
+            <span>إدارة المستخدمين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CustomerManagement.html">
+            <i class="fas fa-user-tie"></i>
+            <span>إدارة العملاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Tracking.html">
+            <i class="fas fa-chart-line"></i>
+            <span>تتبع الأداء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="CurrencyRates.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>أسعار العملات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ShippingOrders.html">
+            <i class="fas fa-shipping-fast"></i>
+            <span>طلبات الشحن</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="ExternalOrders.html">
+            <i class="fas fa-edit"></i>
+            <span>الطلبات الخارجية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Blog.html">
+            <i class="fas fa-newspaper"></i>
+            <span>المدونة</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Partners.html">
+            <i class="fas fa-handshake"></i>
+            <span>الشركاء</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="OrderDistribution.html">
+            <i class="fas fa-tasks"></i>
+            <span>توزيع الطلبات</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content" id="mainContent">
+    <div class="container-fluid py-4">
+      <!-- عنوان الصفحة -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="page-header d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">إدارة الطلبات الخارجية</h2>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOrderModal">
+              <i class="fas fa-plus me-2"></i>إضافة طلب جديد
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- بطاقات الإحصائيات -->
+      <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">إجمالي الطلبات</h6>
+                  <h3 class="mb-0">215</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 15% عن الشهر الماضي
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">طلبات واتساب</h6>
+                  <h3 class="mb-0">128</h3>
+                  <p class="mb-0 text-success small">
+                    <i class="fas fa-arrow-up me-1"></i> 22% عن الشهر الماضي
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fab fa-whatsapp"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">طلبات إنستغرام</h6>
+                  <h3 class="mb-0">64</h3>
+                  <p class="mb-0 text-danger small">
+                    <i class="fas fa-arrow-down me-1"></i> 5% عن الشهر الماضي
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fab fa-instagram"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card stat-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="mb-2 text-muted">طلبات قيد المعالجة</h6>
+                  <h3 class="mb-0">23</h3>
+                  <p class="mb-0 text-warning small">
+                    <i class="fas fa-circle-notch fa-spin me-1"></i> قيد العمل
+                  </p>
+                </div>
+                <div class="card-icon">
+                  <i class="fas fa-tasks"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- نموذج الطلب -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card form-card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">نموذج إضافة طلب خارجي</h5>
+            </div>
+            <div class="card-body">
+              <form id="externalOrderForm">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="customerName" class="form-label">اسم العميل <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="customerName" required>
+                    <div class="invalid-feedback">يرجى إدخال اسم العميل</div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="nationalId" class="form-label">الرقم الوطني <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nationalId" pattern="[0-9]{10}" required>
+                    <div class="invalid-feedback">الرقم الوطني يجب أن يتكون من 10 أرقام</div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="phoneNumber" class="form-label">رقم الهاتف <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="phoneNumber" pattern="[0-9]{10}" required>
+                    <div class="invalid-feedback">رقم الهاتف يجب أن يتكون من 10 أرقام</div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="orderType" class="form-label">نوع الطلب <span class="text-danger">*</span></label>
+                    <select class="form-select select2" id="orderType" required>
+                      <option value="" disabled selected>اختر نوع الطلب</option>
+                      <option value="استيراد">استيراد</option>
+                      <option value="تصدير">تصدير</option>
+                      <option value="شحن">شحن</option>
+                      <option value="جمرك">إجراءات جمركية</option>
+                      <option value="تخليص">تخليص جمركي</option>
+                      <option value="تخزين">تخزين</option>
+                    </select>
+                    <div class="invalid-feedback">يرجى اختيار نوع الطلب</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="orderDescription" class="form-label">وصف الطلب <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="orderDescription" rows="3" required></textarea>
+                  <div class="invalid-feedback">يرجى إدخال وصف للطلب</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="orderFiles" class="form-label">الملفات المرفقة</label>
+                  <input class="form-control" type="file" id="orderFiles" multiple accept="image/*,.pdf,.doc,.docx">
+                  <div class="form-text">يمكنك رفع صور المنتجات أو المستندات المطلوبة (PDF, Word, صور)</div>
+                  
+                  <div class="file-preview-container mt-3">
+                    <h6 class="mb-2">معاينة الملفات المرفوعة:</h6>
+                    <div class="file-preview"></div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="assignedEmployee" class="form-label">الموظف المسؤول <span class="text-danger">*</span></label>
+                    <select class="form-select select2" id="assignedEmployee" required>
+                      <option value="" disabled selected>اختر الموظف</option>
+                      <option value="محمود عبد الله">محمود عبد الله</option>
+                      <option value="ليلى أحمد">ليلى أحمد</option>
+                      <option value="علي محمود">علي محمود</option>
+                      <option value="نادية خالد">نادية خالد</option>
+                      <option value="أحمد سعيد">أحمد سعيد</option>
+                      <option value="ريم محمد">ريم محمد</option>
+                    </select>
+                    <div class="invalid-feedback">يرجى اختيار الموظف المسؤول</div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="orderDate" class="form-label">تاريخ الطلب <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="orderDate" required>
+                    <div class="invalid-feedback">يرجى اختيار تاريخ الطلب</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="orderSource" class="form-label">مصدر الطلب</label>
+                  <select class="form-select select2" id="orderSource">
+                    <option value="" selected>اختر مصدر الطلب</option>
+                    <option value="واتساب">واتساب</option>
+                    <option value="إنستغرام">إنستغرام</option>
+                    <option value="موقع إلكتروني">موقع إلكتروني</option>
+                    <option value="هاتف">هاتف</option>
+                    <option value="زيارة مكتب">زيارة مكتب</option>
+                    <option value="معرض">معرض</option>
+                  </select>
+                </div>
+
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="urgentOrder">
+                  <label class="form-check-label" for="urgentOrder">طلب عاجل</label>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                  <button type="button" class="btn btn-secondary me-2">إلغاء</button>
+                  <button type="submit" class="btn btn-primary">حفظ الطلب</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Select2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  
+  <!-- Custom JS -->
+  <script>
+    $(document).ready(function() {
+      // Initialize Select2
+      $('.select2').select2({
+        placeholder: "اختر من القائمة",
+        allowClear: true,
+        language: {
+          noResults: function() {
+            return "لا توجد نتائج";
+          }
+        }
+      });
+
+      // File preview functionality
+      $('#orderFiles').change(function() {
+        const files = this.files;
+        const previewContainer = $('.file-preview');
+        const previewContainerWrapper = $('.file-preview-container');
+        
+        previewContainer.empty();
+        
+        if (files.length > 0) {
+          previewContainerWrapper.show();
+          
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+              let previewHtml = '';
+              
+              if (file.type.match('image.*')) {
+                previewHtml = `
+                  <div class="file-preview-item">
+                    <img src="${e.target.result}" alt="${file.name}">
+                    <button type="button" class="remove-file" data-index="${i}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                `;
+              } else {
+                const fileIcon = getFileIcon(file.type);
+                previewHtml = `
+                  <div class="file-preview-item bg-light d-flex flex-column align-items-center justify-content-center">
+                    <i class="${fileIcon} fa-2x mb-2"></i>
+                    <small class="text-center">${file.name}</small>
+                    <button type="button" class="remove-file" data-index="${i}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                `;
+              }
+              
+              previewContainer.append(previewHtml);
+            }
+            
+            reader.readAsDataURL(file);
+          }
+        } else {
+          previewContainerWrapper.hide();
+        }
+      });
+
+      // Remove file from preview and input
+      $(document).on('click', '.remove-file', function() {
+        const index = $(this).data('index');
+        const input = $('#orderFiles')[0];
+        const files = Array.from(input.files);
+        
+        files.splice(index, 1);
+        
+        // Create new DataTransfer and set files
+        const dataTransfer = new DataTransfer();
+        files.forEach(file => dataTransfer.items.add(file));
+        
+        // Update input files
+        input.files = dataTransfer.files;
+        
+        // Trigger change event to update preview
+        $(input).trigger('change');
+      });
+
+      // Form validation
+      $('#externalOrderForm').submit(function(e) {
+        e.preventDefault();
+        
+        const form = this;
+        if (form.checkValidity() === false) {
+          e.stopPropagation();
+        } else {
+          // Form is valid, proceed with submission
+          alert('تم حفظ الطلب بنجاح!');
+          // Here you would typically send the form data to the server
+          // form.submit();
+        }
+        
+        form.classList.add('was-validated');
+      });
+
+      // Set today's date as default
+      const today = new Date().toISOString().split('T')[0];
+      $('#orderDate').val(today);
+    });
+
+    // Helper function to get file icon based on type
+    function getFileIcon(fileType) {
+      if (fileType.match('application/pdf')) {
+        return 'far fa-file-pdf text-danger';
+      } else if (fileType.match('application/msword') || fileType.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
+        return 'far fa-file-word text-primary';
+      } else if (fileType.match('application/vnd.ms-excel') || fileType.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+        return 'far fa-file-excel text-success';
+      } else {
+        return 'far fa-file';
+      }
+    }
+  </script>
+</body>
+
+</html>
